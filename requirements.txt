@@ -1,0 +1,4 @@
+django-sass-processor
+base64
+uuid
+django-htmlmin

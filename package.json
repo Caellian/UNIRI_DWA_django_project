@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "stylus": "^0.59.0",
+    "uuid": "^9.0.0"
+  }
+}

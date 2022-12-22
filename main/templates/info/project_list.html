@@ -1,0 +1,22 @@
+{% extends "base.html" %} {% block content %}
+<a href="/projects/create">Create a new project...</a>
+<ul class="project-list vertical">
+  {% for project in projects %}
+  <li class="project">
+    <a href="{% url 'main:project_detail' project.id %}">
+      <h2>{{ project.name }}</h2>
+      <p>{{ project.description }}</p>
+      <div class="duration"></div>
+      <p class="start">{{ project.start_date }}</p>
+      <p class="end">{{ project.end_date }}</p>
+    </a>
+
+    <form method="post" action="{% url 'main:project_list' %}">
+      {% csrf_token %}
+      <input type="hidden" name="project_id" value="{{ project.id }}" />
+      <input class="button delete" type="submit" value="Delete" name="delete" />
+    </form>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}

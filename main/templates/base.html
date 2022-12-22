@@ -1,0 +1,18 @@
+{% load static %} {% load sass_tags %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Solution Manager</title>
+    <link rel="stylesheet" type="text/css" href="{% sass_src 'style.scss' %}" />
+  </head>
+  <body>
+    <nav>
+      <h1>Solution Manager</h1>
+      <ul class="links">
+        <li><a href="{% url 'main:dashboard' %}">Dashboard</a></li>
+        <li><a href="{% url 'main:project_list' %}">Projects</a></li>
+      </ul>
+    </nav>
+    {% block content %}{% endblock %}
+  </body>
+</html>

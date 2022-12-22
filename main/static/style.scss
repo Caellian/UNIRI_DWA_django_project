@@ -1,0 +1,110 @@
+@import "colors";
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+nav {
+    background-color: $accent;
+    display: flex;
+    justify-content: space-between;
+    padding-inline: 0.5rem;
+
+    h1 {
+        font-size: 2rem;
+        color: whitesmoke;
+        padding-block: 0.5rem;
+    }
+
+    .links {
+        display: flex;
+        gap: 0.5rem;
+
+        height: min-content;
+        margin-block: auto;
+
+        list-style: none;
+
+        li {
+            display: block;
+            height: min-content;
+
+            a {
+                display: block;
+                color: whitesmoke;
+                font-size: 1.5rem;
+            }
+        }
+    }
+}
+
+.project-list {
+    display: flex;
+
+    &.vertical {
+        flex-direction: column;
+
+        li.project {
+            display: flex;
+
+            a {
+                flex-grow: 1;
+            }
+
+            form {
+                
+            }
+        }
+    }
+
+    &.dashboard {
+        flex-direction: row;
+
+        li.project {
+            display: block;
+            width: 80ch;
+
+            p.description {
+                text-overflow: ellipsis;
+                max-width: 4rem;
+                max-height: 2rem;
+            }
+        }
+    }
+}
+
+.button {
+    content: "";
+    display: block;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-size: cover;
+    background-position: center;
+    background: none;
+    border: none;
+    color: transparent;
+    cursor: pointer;
+    padding: 0.2rem;
+
+    &.delete {
+        background-image: url("icon/delete.svg");
+    }
+
+    &.add {
+        background-image: url("icon/add.svg");
+    }
+}
