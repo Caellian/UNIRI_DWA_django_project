@@ -63,6 +63,14 @@ STATICFILES_FINDERS = [
     'sass_processor.finders.CssFinder',
 ]
 
+ICON_DIR = os.path.join(BASE_DIR, "main/static/icon")
+def icons():
+    import sass
+
+    icons = [path.rpartition(".")[0] for path in os.listdir(ICON_DIR)]
+    return sass.SassList(icons, sass.SASS_SEPARATOR_COMMA);
+ICON_LIST = icons();
+
 ROOT_URLCONF = 'solution_manager.urls'
 
 TEMPLATES = [

@@ -5,7 +5,7 @@
   href="{% sass_src 'style/project_list.scss' %}"
 />
 {% endblock %} {% block content %}
-<a class="icon add" href="/projects/create">Create a new project...</a>
+<a class="icon button add" href="/projects/create">Create a new project...</a>
 <ul id="project-list">
   {% for project in projects %}
   <li class="project">
@@ -17,7 +17,7 @@
       <p class="end">{{ project.end_date }}</p>
     </a>
 
-    <form method="post" action="{% url 'main:project_list' %}">
+    <form class="button" method="post" action="{% url 'main:project_list' %}">
       {% csrf_token %}
       <input type="hidden" name="project_id" value="{{ project.id }}" />
       <input

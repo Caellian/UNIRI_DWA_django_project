@@ -13,10 +13,16 @@
     <p class="priority">{{ issue.priority }}</p>
     <p>Created: {{ issue.created_at }}</p>
     <p>Updated: {{ issue.updated_at }}</p>
-    <form method="post" action="{% url 'issue_list' %}">
+    <form class="action" method="post" action="{% url 'issue_list' %}">
       {% csrf_token %}
       <input type="hidden" name="issue_id" value="{{ issue.id }}" />
-      <input class="delete-button" type="submit" value="Delete" name="delete" />
+      <input
+        class="icon delete button"
+        type="submit"
+        name="delete"
+        aria-label="remote"
+        value=""
+      />
     </form>
   </li>
   {% endfor %}

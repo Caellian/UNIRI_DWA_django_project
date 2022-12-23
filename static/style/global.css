@@ -5,16 +5,19 @@
   box-sizing: border-box; }
 
 @use "colors";
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Rubik", "Noto Sans", "Open Sans", sans-serif;
+  color: teal; }
+
+p {
+  color: #1a1a1a; }
+
 a {
   text-decoration: none;
   font-family: "Catamaran", "Roboto", "Noto Sans", "Open Sans", sans-serif;
   color: #e78c32; }
   a:hover {
     text-decoration: underline; }
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: "Rubik", "Noto Sans", "Open Sans", sans-serif;
-  color: teal; }
 
 ul {
   list-style: none; }
@@ -26,24 +29,30 @@ nav {
   padding-inline: 0.5rem; }
   nav h1 {
     font-size: 2rem;
-    color: whitesmoke;
+    color: #d9d9d9;
     padding-block: 0.5rem; }
   nav .links {
     display: flex;
-    gap: 0.5rem;
-    height: min-content;
-    margin-block: auto;
-    list-style: none; }
-    nav .links li {
-      display: block;
-      height: min-content; }
-      nav .links li a {
+    gap: 1rem; }
+    nav .links ul {
+      display: flex;
+      gap: 0.5rem;
+      height: min-content;
+      margin-block: auto;
+      list-style: none; }
+      nav .links ul li {
         display: block;
-        color: whitesmoke;
-        font-size: 1.5rem;
-        font-family: "Catamaran", "Roboto", "Noto Sans", "Open Sans", sans-serif; }
-        nav .links li a:active {
-          color: #489999; }
+        height: min-content; }
+        nav .links ul li a {
+          display: block;
+          color: #d9d9d9;
+          font-size: 1.5rem;
+          font-family: "Catamaran", "Roboto", "Noto Sans", "Open Sans", sans-serif; }
+          nav .links ul li a:active {
+            color: #489999; }
+  nav a.settings {
+    background-color: #d9d9d9;
+    margin-block: auto; }
 
 .project-list {
   display: flex; }
@@ -57,30 +66,47 @@ nav {
         max-width: 4rem;
         max-height: 2rem; }
 
+form.action {
+  margin: auto;
+  width: min-content;
+  height: min-content; }
+
 @use "colors";
 .icon {
   content: "";
-  display: block;
+  display: inline-block;
   width: 1.5rem;
   height: 1.5rem;
+  background: none;
+  background-color: teal;
   background-size: cover;
-  background-position: center;
-  background-color: #489999; }
-  .icon:hover {
-    background-color: teal; }
-  .icon:active {
-    background-color: #116464; }
+  background-position: center; }
+  .icon.button {
+    cursor: pointer;
+    filter: brightness(120%); }
+    .icon.button:hover {
+      filter: brightness(100%); }
+    .icon.button:active {
+      filter: brightness(80%); }
+
+.icon.settings {
+  -webkit-mask-image: url(../icon/settings.svg);
+  mask-image: url(../icon/settings.svg); }
 
 .icon.delete {
-  -webkit-mask-image: url("../icon/delete.svg");
-  mask-image: url("../icon/delete.svg"); }
+  -webkit-mask-image: url(../icon/delete.svg);
+  mask-image: url(../icon/delete.svg); }
 
-.icon.add {
-  -webkit-mask-image: url("../icon/add.svg");
-  mask-image: url("../icon/add.svg"); }
+.icon.options-vertical {
+  -webkit-mask-image: url(../icon/options-vertical.svg);
+  mask-image: url(../icon/options-vertical.svg); }
 
 .icon.open {
-  -webkit-mask-image: url("../icon/open.svg");
-  mask-image: url("../icon/open.svg"); }
+  -webkit-mask-image: url(../icon/open.svg);
+  mask-image: url(../icon/open.svg); }
+
+.icon.add {
+  -webkit-mask-image: url(../icon/add.svg);
+  mask-image: url(../icon/add.svg); }
 
 /*# sourceMappingURL=global.css.map */

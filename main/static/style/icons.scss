@@ -2,21 +2,26 @@
 
 .icon {
     content: "";
-    display: block;
+    display: inline-block;
 
     width: 1.5rem;
     height: 1.5rem;
 
+    background: none;
+    background-color: $color-accent;
     background-size: cover;
     background-position: center;
 
-    // default colors
-    background-color: $color-accent-light;
-    &:hover {
-        background-color: $color-accent;
-    }
-    &:active {
-        background-color: $color-accent-dark;
+    &.button {
+        cursor: pointer;
+        
+        filter: brightness(120%);
+        &:hover {
+            filter: brightness(100%);
+        }
+        &:active {
+            filter: brightness(80%);
+        }
     }
 }
 
@@ -25,14 +30,9 @@
     mask-image: url($url);
 }
 
-// BEGIN ICONS
-.icon.delete {
-    @include icon-url("../icon/delete.svg");
+@each $icon in get-setting(ICON_LIST) {
+    #{".icon." + $icon} {
+        @include icon-url(#{"../icon/" + $icon + ".svg"});
+    }
 }
-.icon.add {
-    @include icon-url("../icon/add.svg");
-}
-.icon.open {
-    @include icon-url("../icon/open.svg");
-}
-// END ICONS
+

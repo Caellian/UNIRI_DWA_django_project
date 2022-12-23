@@ -20,34 +20,48 @@ nav {
 
     h1 {
         font-size: 2rem;
-        color: whitesmoke;
+        color: $color-bg-1;
         padding-block: 0.5rem;
     }
 
     .links {
         display: flex;
-        gap: 0.5rem;
+        gap: 1rem;
 
-        height: min-content;
-        margin-block: auto;
-
-        list-style: none;
-
-        li {
-            display: block;
+        ul {
+            display: flex;
+            gap: 0.5rem;
+    
             height: min-content;
-
-            a {
+            margin-block: auto;
+    
+            list-style: none;
+    
+            li {
                 display: block;
-                color: whitesmoke;
-                font-size: 1.5rem;
-                font-family: $font-accent;
-
-                &:active {
-                    color: $color-accent-light
+                height: min-content;
+    
+                a {
+                    display: block;
+                    color: $color-bg-1;
+                    font-size: 1.5rem;
+                    font-family: $font-accent;
+    
+                    &:active {
+                        color: $color-accent-light
+                    }
                 }
             }
         }
+
+        a {
+            
+        }
+    }
+
+    a.settings {
+        background-color: $color-bg-1;
+        margin-block: auto;
     }
 }
 
@@ -68,6 +82,12 @@ nav {
             }
         }
     }
+}
+
+form.action {
+    margin: auto;
+    width: min-content;
+    height: min-content;
 }
 
 @import "icons.scss";

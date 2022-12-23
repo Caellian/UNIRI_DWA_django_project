@@ -13,10 +13,13 @@
   <body>
     <nav>
       <h1>Solution Manager</h1>
-      <ul class="links">
-        <li><a href="{% url 'main:dashboard' %}">Dashboard</a></li>
-        <li><a href="{% url 'main:project_list' %}">Projects</a></li>
-      </ul>
+      <div class="links">
+        <ul>
+          <li><a href="{% url 'main:dashboard' %}">Dashboard</a></li>
+          <li><a href="{% url 'main:project_list' %}">Projects</a></li>
+        </ul>
+        <a class="icon button settings" href="" aria-label="Settings"></a>
+      </div>
     </nav>
     {% block content %}{% endblock %}
   </body>
