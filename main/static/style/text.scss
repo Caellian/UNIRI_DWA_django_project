@@ -1,0 +1,23 @@
+@use "colors";
+
+@import url('https://fonts.googleapis.com/css2?family=Catamaran&family=Merriweather:wght@300&family=Rubik:wght@300&display=swap');
+
+$font-title: "Rubik", "Noto Sans", "Open Sans", sans-serif;
+$font-accent: "Catamaran", "Roboto", "Noto Sans", "Open Sans", sans-serif;
+$font-content: "Merriweather", "Noto Serif", "Times New Roman", Times, serif;
+$font-link: $font-accent;
+
+a {
+    text-decoration: none;
+    font-family: $font-link;
+    color: $color-secondary;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-family: $font-title;
+    color: $color-accent;
+}

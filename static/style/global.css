@@ -1,0 +1,86 @@
+@import url("https://fonts.googleapis.com/css2?family=Catamaran&family=Merriweather:wght@300&family=Rubik:wght@300&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box; }
+
+@use "colors";
+a {
+  text-decoration: none;
+  font-family: "Catamaran", "Roboto", "Noto Sans", "Open Sans", sans-serif;
+  color: #e78c32; }
+  a:hover {
+    text-decoration: underline; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Rubik", "Noto Sans", "Open Sans", sans-serif;
+  color: teal; }
+
+ul {
+  list-style: none; }
+
+nav {
+  background-color: #116464;
+  display: flex;
+  justify-content: space-between;
+  padding-inline: 0.5rem; }
+  nav h1 {
+    font-size: 2rem;
+    color: whitesmoke;
+    padding-block: 0.5rem; }
+  nav .links {
+    display: flex;
+    gap: 0.5rem;
+    height: min-content;
+    margin-block: auto;
+    list-style: none; }
+    nav .links li {
+      display: block;
+      height: min-content; }
+      nav .links li a {
+        display: block;
+        color: whitesmoke;
+        font-size: 1.5rem;
+        font-family: "Catamaran", "Roboto", "Noto Sans", "Open Sans", sans-serif; }
+        nav .links li a:active {
+          color: #489999; }
+
+.project-list {
+  display: flex; }
+  .project-list.dashboard {
+    flex-direction: row; }
+    .project-list.dashboard li.project {
+      display: block;
+      width: 80ch; }
+      .project-list.dashboard li.project p.description {
+        text-overflow: ellipsis;
+        max-width: 4rem;
+        max-height: 2rem; }
+
+@use "colors";
+.icon {
+  content: "";
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-size: cover;
+  background-position: center;
+  background-color: #489999; }
+  .icon:hover {
+    background-color: teal; }
+  .icon:active {
+    background-color: #116464; }
+
+.icon.delete {
+  -webkit-mask-image: url("../icon/delete.svg");
+  mask-image: url("../icon/delete.svg"); }
+
+.icon.add {
+  -webkit-mask-image: url("../icon/add.svg");
+  mask-image: url("../icon/add.svg"); }
+
+.icon.open {
+  -webkit-mask-image: url("../icon/open.svg");
+  mask-image: url("../icon/open.svg"); }
+
+/*# sourceMappingURL=global.css.map */

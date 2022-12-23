@@ -6,20 +6,14 @@
     box-sizing: border-box;
 }
 
+@import "text.scss";
+
 ul {
     list-style: none;
 }
 
-a {
-    text-decoration: none;
-
-    &:hover {
-        text-decoration: underline;
-    }
-}
-
 nav {
-    background-color: $accent;
+    background-color: $color-accent-dark;
     display: flex;
     justify-content: space-between;
     padding-inline: 0.5rem;
@@ -47,6 +41,11 @@ nav {
                 display: block;
                 color: whitesmoke;
                 font-size: 1.5rem;
+                font-family: $font-accent;
+
+                &:active {
+                    color: $color-accent-light
+                }
             }
         }
     }
@@ -54,22 +53,6 @@ nav {
 
 .project-list {
     display: flex;
-
-    &.vertical {
-        flex-direction: column;
-
-        li.project {
-            display: flex;
-
-            a {
-                flex-grow: 1;
-            }
-
-            form {
-                
-            }
-        }
-    }
 
     &.dashboard {
         flex-direction: row;
@@ -87,24 +70,4 @@ nav {
     }
 }
 
-.button {
-    content: "";
-    display: block;
-    width: 1.5rem;
-    height: 1.5rem;
-    background-size: cover;
-    background-position: center;
-    background: none;
-    border: none;
-    color: transparent;
-    cursor: pointer;
-    padding: 0.2rem;
-
-    &.delete {
-        background-image: url("icon/delete.svg");
-    }
-
-    &.add {
-        background-image: url("icon/add.svg");
-    }
-}
+@import "icons.scss";

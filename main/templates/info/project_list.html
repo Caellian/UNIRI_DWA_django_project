@@ -1,6 +1,12 @@
-{% extends "base.html" %} {% block content %}
-<a href="/projects/create">Create a new project...</a>
-<ul class="project-list vertical">
+{% extends "base.html" %} {% load sass_tags %} {% block head %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% sass_src 'style/project_list.scss' %}"
+/>
+{% endblock %} {% block content %}
+<a class="icon add" href="/projects/create">Create a new project...</a>
+<ul id="project-list">
   {% for project in projects %}
   <li class="project">
     <a href="{% url 'main:project_detail' project.id %}">
@@ -14,7 +20,13 @@
     <form method="post" action="{% url 'main:project_list' %}">
       {% csrf_token %}
       <input type="hidden" name="project_id" value="{{ project.id }}" />
-      <input class="button delete" type="submit" value="Delete" name="delete" />
+      <input
+        class="button clear icon delete"
+        type="submit"
+        aria-label="Delete project"
+        name="delete"
+        value=""
+      />
     </form>
   </li>
   {% endfor %}

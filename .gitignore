@@ -1,8 +1,5 @@
-node_modules/
-
 # Python
 __pycache__/
 
-# Generated
-static/**/*.css
-static/**/*.css.map
+# Generated static files
+./static/

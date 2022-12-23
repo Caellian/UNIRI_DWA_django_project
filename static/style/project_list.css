@@ -1,0 +1,15 @@
+#project-list {
+  flex-direction: column;
+  padding: 1rem; }
+  #project-list li.project {
+    display: flex; }
+    #project-list li.project a {
+      flex-grow: 1; }
+    #project-list li.project form {
+      margin: auto;
+      width: min-content;
+      height: min-content; }
+      #project-list li.project form .button {
+        cursor: pointer; }
+
+/*# sourceMappingURL=project_list.css.map */

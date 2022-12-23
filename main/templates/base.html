@@ -3,7 +3,12 @@
 <html>
   <head>
     <title>Solution Manager</title>
-    <link rel="stylesheet" type="text/css" href="{% sass_src 'style.scss' %}" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% sass_src 'style/global.scss' %}"
+    />
+    {% block head %}{% endblock %}
   </head>
   <body>
     <nav>

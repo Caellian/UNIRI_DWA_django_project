@@ -1,0 +1,38 @@
+@use "colors";
+
+.icon {
+    content: "";
+    display: block;
+
+    width: 1.5rem;
+    height: 1.5rem;
+
+    background-size: cover;
+    background-position: center;
+
+    // default colors
+    background-color: $color-accent-light;
+    &:hover {
+        background-color: $color-accent;
+    }
+    &:active {
+        background-color: $color-accent-dark;
+    }
+}
+
+@mixin icon-url($url) {
+    -webkit-mask-image: url($url);
+    mask-image: url($url);
+}
+
+// BEGIN ICONS
+.icon.delete {
+    @include icon-url("../icon/delete.svg");
+}
+.icon.add {
+    @include icon-url("../icon/add.svg");
+}
+.icon.open {
+    @include icon-url("../icon/open.svg");
+}
+// END ICONS

@@ -1,0 +1,22 @@
+#project-list {
+    flex-direction: column;
+    padding: 1rem;
+
+    li.project {
+        display: flex;
+
+        a {
+            flex-grow: 1;
+        }
+
+        form {
+            margin: auto;
+            width: min-content;
+            height: min-content;
+
+            .button {
+                cursor: pointer;
+            }
+        }
+    }
+}
