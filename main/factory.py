@@ -1,3 +1,6 @@
+import random
+from datetime import timedelta
+
 import factory
 from factory.django import DjangoModelFactory
 
@@ -9,8 +12,6 @@ class UserFactory(DjangoModelFactory):
         model = User
 
     email = factory.Faker('email')
-    username = factory.Faker('first_name').lower() + \
-        "_" + factory.Faker('last_name').lower()
     password = factory.PostGenerationMethodCall('set_password', 'f4keuse3r')
     bio = factory.Faker("sentence", nb_words=120)
 
@@ -18,10 +19,12 @@ class UserFactory(DjangoModelFactory):
     is_staff = False
     is_active = True
 
-    name = factory.Faker("first_name")
-    address = factory.Faker("address")
-    city = factory.Faker("city")
-    country = factory.Faker("country")
+    first_name = factory.Faker("first_name")
+    last_name = factory.Faker("last_name")
+
+    username = factory.LazyAttribute(
+        lambda obj: f"{obj.first_name.lower()}_{obj.last_name.lower()}"
+    )
 
 
 class TeamFactory(DjangoModelFactory):
@@ -29,7 +32,23 @@ class TeamFactory(DjangoModelFactory):
         model = Team
 
     name = factory.Faker('company')
-    members = factory.SubFactory(UserFactory)
+
+    @factory.post_generation
+    def members(self, create, extracted, **kwargs):
+        if not create:
+            # Simple build, do nothing.
+            return
+
+        if extracted:
+            # A list of members were passed in, use them.
+            for member in extracted:
+                self.members.add(member)
+        else:
+            # No members were passed in, create some.
+            num_members = random.randint(1, 10)
+            for _ in range(num_members):
+                member = UserFactory()
+                self.members.add(member)
 
 
 class ProjectFactory(DjangoModelFactory):
@@ -41,7 +60,8 @@ class ProjectFactory(DjangoModelFactory):
 
     team = factory.SubFactory(TeamFactory)
     start_date = factory.Faker('date_this_decade')
-    end_date = factory.Faker('date_this_decade', end_date='+30d')
+    end_date = factory.LazyAttribute(
+        lambda project: project.start_date + timedelta(days=random.randint(1, 4) * 30))
     is_active = True
 
 
@@ -52,6 +72,10 @@ class IssueFactory(DjangoModelFactory):
     title = factory.Faker('sentence')
     description = factory.Faker('text')
     project = factory.SubFactory(ProjectFactory)
+    author = factory.LazyAttribute(
+        lambda issue: random.choice(issue.project.team.members.all()))
+    assigned = factory.LazyAttribute(
+        lambda issue: random.choice(issue.project.team.members.all()))
     status = factory.Faker('word')
     priority = factory.Faker('word')
 
@@ -61,5 +85,6 @@ class CommentFactory(DjangoModelFactory):
         model = Comment
 
     issue = factory.SubFactory(IssueFactory)
+    author = factory.Iterator(User.objects.all())
     text = factory.Faker('text')
     created_at = factory.Faker('date_time_this_decade', tzinfo=None)

@@ -1,6 +1,6 @@
 from django.contrib import admin, auth
 from .models import *
 
-# Register your models here.
+model_list = [Project, Issue, Comment, Team, User]
 
-admin.site.register([Project, Issue, Comment, Team, User])
+admin.site.register(model_list)

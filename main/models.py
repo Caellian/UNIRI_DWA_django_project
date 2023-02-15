@@ -25,7 +25,8 @@ class Project(Model):
     name = models.CharField(max_length=64)
     description = models.TextField()
 
-    team = models.ForeignKey(Team, null=True, on_delete=models.SET_NULL)
+    team = models.OneToOneField(
+        Team, null=True, on_delete=models.SET_NULL, related_name="project_team")
     start_date = models.DateField()
     end_date = models.DateField(null=True, blank=True)
     is_active = models.BooleanField(default=True)
@@ -41,9 +42,9 @@ class Issue(Model):
     status = models.CharField(max_length=255)
     priority = models.CharField(max_length=255)
 
-    author = models.OneToOneField(
+    author = models.ForeignKey(
         User, null=True, on_delete=models.SET_NULL, related_name="issue_author")
-    assigned = models.OneToOneField(
+    assigned = models.ForeignKey(
         User, null=True, on_delete=models.SET_NULL, related_name="issue_assigned")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -54,6 +55,7 @@ class Issue(Model):
 
 class Comment(Model):
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
