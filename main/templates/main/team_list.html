@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %} {% block title %} Solution Manager - Team List
+{% endblock %} {% block content %}
+<br />
+<h2>Team List</h2>
+<br />
+<ul class="teams">
+  {% for team in team_list %}
+  <li>
+    <h4>Team {{ team.name }}</h4>
+    <ul class="members">
+      {% for member in team.members.all %}
+      <li>{{ member.first_name }} {{ member.last_name }}</li>
+      {% endfor %}
+    </ul>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}

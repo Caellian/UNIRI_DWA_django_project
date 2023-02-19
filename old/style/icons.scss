@@ -32,7 +32,7 @@
 
 @each $icon in get-setting(ICON_LIST) {
     #{".icon." + $icon} {
-        @include icon-url(#{"../icon/" + $icon + ".svg"});
+        @include icon-url(#{"/icon/" + $icon + ".svg"});
     }
 }
 

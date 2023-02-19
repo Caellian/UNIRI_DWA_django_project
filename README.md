@@ -1,5 +1,7 @@
 **Zadatak:** Issue Tracker
 
+[Dokumentacija](https://gaseri.org/hr/nastava/materijali/python-modul-django/#petlje)
+
 ## Opis
 Web aplikacija za praćenje greška i problema u softverskom kodu.
 

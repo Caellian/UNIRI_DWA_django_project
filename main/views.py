@@ -8,61 +8,31 @@ import base64
 from .models import *
 from .forms import *
 
+
 def today():
     return datetime.now().strftime('%Y-%m-%d')
 
-class DashboardView(generic.View):
+
+class Dashboard(generic.View):
     def get(self, request):
-        projects = Project.objects.filter(is_active=True)
-        users = User.objects.all().order_by('-last_login')[:10]
-        return render(request, 'dashboard.html', {'projects': projects, 'users': users})
+        return render(request, 'dashboard.html')
 
-class ProjectListView(generic.View):
-    def get(self, request):
-        projects = Project.objects.all()
-        return render(request, 'info/project_list.html', {'projects': projects})
 
-    def post(self, request):
-        if 'delete' in request.POST:
-            Project.objects.get(id=request.POST['project_id']).delete()
-            return redirect('main:project_list')
+class TeamList(generic.ListView):
+    model = Team
 
-class ProjectDetailView(generic.View):
-    def get(self, request, project_id):
-        project = get_object_or_404(Project, pk=project_id)
-        issues = Issue.objects.filter(project=project)
-        return render(request, 'info/project_detail.html', {'project': project, 'issues': issues})
 
-class ProjectFormCreateView(generic.View):
-    def get(self, request):
-        form = ProjectCreateForm(initial={'start_date': today()})
-        return render(request, 'forms/create_project.html', {'form': form})
+class ProjectList(generic.ListView):
+    model = Project
 
-    def post(self, request):
-        form = ProjectCreateForm(request.POST)
-    
-        if form.is_valid():
-            name = form.cleaned_data['name']
-            
-            if Project.objects.filter(name=name).exists():
-                return render(request, 'forms/create_project.html', {'form': form, 'error': 'A project with the same name already exists.'})
-            else:
-                form.save()
-                return redirect('main:project_list')
 
-class IssueFormCreateView(generic.View):
-    def get(self, request):
-        form = ProjectCreateForm(initial={'start_date': today()})
-        return render(request, 'forms/create_project.html', {'form': form})
+class IssueList(generic.ListView):
+    model = Issue
 
-    def post(self, request):
-        form = ProjectCreateForm(request.POST)
-    
-        if form.is_valid():
-            name = form.cleaned_data['name']
-            
-            if Project.objects.filter(name=name).exists():
-                return render(request, 'forms/create_project.html', {'form': form, 'error': 'A project with the same name already exists.'})
-            else:
-                form.save()
-                return redirect('main:project_list')
+
+class UserList(generic.ListView):
+    model = User
+
+
+class CommentList(generic.ListView):
+    model = Comment

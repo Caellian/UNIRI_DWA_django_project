@@ -11,7 +11,6 @@ NUM_PROJECTS = 2
 NUM_ISSUES = 10
 NUM_COMMENTS = 25
 
-
 class Command(BaseCommand):
     help = "Generates test data"
 
@@ -35,7 +34,7 @@ class Command(BaseCommand):
             team = TeamFactory()
 
             # Assign Users to Teams
-            self.stdout.write(f"\t- Assigning users to {team.name} team...")
+            self.stdout.write(f"\t- Assigning users to '{team.name}' team...")
             for i in range(NUM_USERS):
                 if i % 2 == 0:
                     team.members.add(User.objects.all()[i])

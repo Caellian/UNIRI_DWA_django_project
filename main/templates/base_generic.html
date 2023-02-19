@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Solution Manager{% endblock %}</title>
+    <meta name="description" content={% block head_description %}"A solution
+    management application"{% endblock %}>
+    <meta name="author" content="Tin Svagelj" />
+  </head>
+  <body>
+    <h1>Issue Tracker</h1>
+    <nav id="sidebar">
+      {% block sidebar %}
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/teams">Teams</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li><a href="/issues">Issues</a></li>
+        <li><a href="/comments">Comments</a></li>
+        <li><a href="/users">Users</a></li>
+      </ul>
+      {% endblock %}
+    </nav>
+    <main class="content">{% block content %}{% endblock %}</main>
+  </body>
+</html>

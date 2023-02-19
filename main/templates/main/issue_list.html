@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}{% block title %}Solution Manager - Issue List
+{% endblock %} {% block content %}
+<br />
+<h2>Issue List</h2>
+<br />
+<ul class="issues">
+  {% for issue in issue_list %}
+  <li>
+    <h4>{{ issue.title }}</h4>
+    <p>{{issue.description}}</p>
+    <p>Project: {{issue.project.name}}</p>
+    <p>Status: {{issue.status}}</p>
+    <p>Priority: {{issue.priority}}</p>
+    <p>Author: {{issue.author}}</p>
+    <p>Assigned: {{issue.assigned}}</p>
+    <p>Created: {{issue.created_at}}</p>
+    <p>Updated: {{issue.updated_at}}</p>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}

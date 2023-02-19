@@ -1,0 +1,22 @@
+{% extends "base_generic.html" %}{% block title %}Solution Manager - Project
+List{% endblock %} {% block content %}
+<br />
+<h2>Project List</h2>
+<br />
+<ul class="projects">
+  {% for project in project_list %}
+  <li>
+    <h4>{{ project.name }}</h4>
+    <p>{{project.description}}</p>
+    <p>Duration: {{project.start_date}} - {{project.end_date}}</p>
+    <p>Team: {{project.team.name}}</p>
+    <p>Members:</p>
+    <ul class="members">
+      {% for member in project.team.members.all %}
+      <li>{{ member.first_name }} {{ member.last_name }}</li>
+      {% endfor %}
+    </ul>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}
