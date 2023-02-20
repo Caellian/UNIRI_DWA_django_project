@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/django,sass,linux,macos,windows,python
-# Edit at https://www.toptal.com/developers/gitignore?templates=django,sass,linux,macos,windows,python
+# Created by https://www.toptal.com/developers/gitignore/api/sass,linux,macos,django,python,windows,visualstudiocode
+# Edit at https://www.toptal.com/developers/gitignore?templates=sass,linux,macos,django,python,windows,visualstudiocode
 
 ### Django ###
 *.log
@@ -305,12 +305,33 @@ Temporary Items
 # Poetry local configuration file - https://python-poetry.org/docs/configuration/#local-configuration
 poetry.toml
 
+# ruff
+.ruff_cache/
 
 ### Sass ###
 .sass-cache/
 *.css.map
 *.sass.map
 *.scss.map
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+# Local History for Visual Studio Code
+.history/
+
+# Built Visual Studio Code Extensions
+*.vsix
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+.ionide
 
 ### Windows ###
 # Windows thumbnail cache files
@@ -338,4 +359,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/django,sass,linux,macos,windows,python
+# End of https://www.toptal.com/developers/gitignore/api/sass,linux,macos,django,python,windows,visualstudiocode
