@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+{% block title %}
+Solution Manager - {{ team.namespace }}
+{% endblock %}
+{% block content %}
+<br />
+<h2>Team {{ team.name }}</h2>
+<h3 id="projects">Projects:</h3>
+<ul aria-labelledby="projects">
+  {% for project in team_projects %}
+  <li><a href="{% url 'main:project_detail' team.namespace project.namespace %}">{{ project.name }}</a></li>
+  {% endfor %}
+</ul>
+<br />
+<h3 id="members">Members:</h3>
+<ul aria-labelledby="members">
+  {% for member in team.members.all %}
+  <li>{{ member.first_name }} {{ member.last_name }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}

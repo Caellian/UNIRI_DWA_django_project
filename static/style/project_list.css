@@ -1,9 +1,0 @@
-#project-list {
-  flex-direction: column;
-  padding: 1rem; }
-  #project-list li.project {
-    display: flex; }
-    #project-list li.project a {
-      flex-grow: 1; }
-
-/*# sourceMappingURL=project_list.css.map */

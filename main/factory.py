@@ -31,7 +31,9 @@ class TeamFactory(DjangoModelFactory):
     class Meta:
         model = Team
 
-    name = factory.Faker('company')
+    namespace = factory.Faker('word')
+    name = factory.LazyAttribute(
+        lambda team: team.namespace)
 
     @factory.post_generation
     def members(self, create, extracted, **kwargs):
@@ -51,18 +53,27 @@ class TeamFactory(DjangoModelFactory):
                 self.members.add(member)
 
 
-class ProjectFactory(DjangoModelFactory):
+class ProjectScheduleFactory(DjangoModelFactory):
     class Meta:
-        model = Project
+        model = ProjectSchedule
 
-    name = factory.Faker('word')
-    description = factory.Faker('text')
-
-    team = factory.SubFactory(TeamFactory)
     start_date = factory.Faker('date_this_decade')
     end_date = factory.LazyAttribute(
         lambda project: project.start_date + timedelta(days=random.randint(1, 4) * 30))
     is_active = True
+
+
+class ProjectFactory(DjangoModelFactory):
+    class Meta:
+        model = Project
+
+    namespace = factory.Faker('word')
+    name = factory.LazyAttribute(
+        lambda project: project.namespace)
+    description = factory.Faker('text')
+
+    team = factory.SubFactory(TeamFactory)
+    schedule = factory.SubFactory(ProjectScheduleFactory)
 
 
 class IssueFactory(DjangoModelFactory):
@@ -76,8 +87,8 @@ class IssueFactory(DjangoModelFactory):
         lambda issue: random.choice(issue.project.team.members.all()))
     assigned = factory.LazyAttribute(
         lambda issue: random.choice(issue.project.team.members.all()))
-    status = factory.Faker('word')
-    priority = factory.Faker('word')
+    status = factory.Iterator(IssueStatus.values)
+    priority = factory.Iterator(IssuePriority.values)
 
 
 class CommentFactory(DjangoModelFactory):

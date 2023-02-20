@@ -7,7 +7,8 @@ from main.models import *
 from main.factory import *
 
 NUM_USERS = 25
-NUM_PROJECTS = 2
+NUM_TEAMS = 2
+NUM_PROJECTS = 7
 NUM_ISSUES = 10
 NUM_COMMENTS = 25
 
@@ -29,8 +30,8 @@ class Command(BaseCommand):
             UserFactory()
 
         # Create Teams
-        self.stdout.write(f"- Creating {NUM_PROJECTS} teams...")
-        for _ in range(NUM_PROJECTS):
+        self.stdout.write(f"- Creating {NUM_TEAMS} teams...")
+        for _ in range(NUM_TEAMS):
             team = TeamFactory()
 
             # Assign Users to Teams
@@ -42,7 +43,7 @@ class Command(BaseCommand):
         # Create Projects
         self.stdout.write(f"- Creating {NUM_PROJECTS} projects...")
         for i in range(NUM_PROJECTS):
-            team = Team.objects.all()[i]
+            team = Team.objects.all()[i % NUM_TEAMS]
             project = ProjectFactory(team=team)
 
             def random_team_member():

@@ -1,0 +1,26 @@
+{% extends "base_generic.html" %}
+{% block title %}
+Solution Manager - Issue List
+{% endblock %}
+{% block content %}
+<br />
+<h2>{{ issue.title }}</h2>
+<p>{{issue.description}}</p>
+<p>Project: {{issue.project.name}}</p>
+<p>Status: {{issue.status}}</p>
+<p>Priority: {{issue.priority}}</p>
+<p>Author: {{issue.author}}</p>
+<p>Assigned: {{issue.assigned}}</p>
+<p>Created: {{issue.created_at}}</p>
+<p>Updated: {{issue.updated_at}}</p>
+
+<h3 id="comments">Comments</h3>
+<ul aria-labelledby="comments">
+    {% for comment in issue_comments %}
+    <li>
+        <p>{{ comment.text }}</p>
+        <p>{{ comment.created_at }} - {{ comment.author }}</p>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

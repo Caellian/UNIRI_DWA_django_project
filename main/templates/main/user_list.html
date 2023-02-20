@@ -2,12 +2,12 @@
 {% endblock %} {% block content %}
 <br />
 <h2>User List</h2>
-<br />
 <ul class="users">
   {% for user in user_list %}
-  <li class="{% if user.is_active %}active{% endif %}">
-    <h4>{{ user.first_name }} {{ user.last_name }}</h4>
-    <p>Bio: {{ user.bio }}</p>
+  <li>
+    <a href="{% url 'main:user_detail' user.username %}">
+      {{ user.first_name }} {{ user.last_name }} ({{ user.username }}) &lt;{{ user.email }}&gt;
+    </a>
   </li>
   {% endfor %}
 </ul>

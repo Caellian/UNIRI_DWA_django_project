@@ -1,0 +1,23 @@
+{% extends "base_generic.html" %}
+{% block title %}
+Solution Manager - Project List
+{% endblock %}
+{% block content %}
+<br />
+<h2>{{ project.name }}</h2>
+<p>{{project.description}}</p>
+<p>Duration: {{project.schedule.start_date}} - {{project.schedule.end_date}}</p>
+<p>Team: {{project.team.name}}</p>
+<h3 id="issues">Issue List</h3>
+<ul aria-labelledby="issues">
+  {% for issue in project_issues %}
+  <li><a href="{% url 'main:issue_detail' project.team.namespace project.namespace issue.id %}">{{ issue.title }}</a></li>
+  {% endfor %}
+</ul>
+<h3 id="members">List of Member</h3>
+<ul aria-labelledby="members">
+  {% for member in project.team.members.all %}
+  <li>{{ member.first_name }} {{ member.last_name }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}
