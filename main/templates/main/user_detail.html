@@ -12,7 +12,7 @@ Solution Manager - {{ user.username }}
 <p>Bio: {{ user.bio }}</p>
 <h3>Teams</h3>
 <ul>
-    {% for team in user_teams %}
+    {% for team in user.get_teams %}
     <li><a href="{% url 'main:team_detail' team.namespace %}" >{{ team.name }}</a></li>
     {% endfor %}
 </ul>

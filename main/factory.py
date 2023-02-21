@@ -98,4 +98,4 @@ class CommentFactory(DjangoModelFactory):
     issue = factory.SubFactory(IssueFactory)
     author = factory.Iterator(User.objects.all())
     text = factory.Faker('text')
-    created_at = factory.Faker('date_time_this_decade', tzinfo=None)
+    created_at = factory.Faker('date_time', tzinfo=None)

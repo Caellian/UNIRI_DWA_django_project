@@ -7,7 +7,7 @@ Solution Manager - {{ team.namespace }}
 <h2>Team {{ team.name }}</h2>
 <h3 id="projects">Projects:</h3>
 <ul aria-labelledby="projects">
-  {% for project in team_projects %}
+  {% for project in team.get_projects %}
   <li><a href="{% url 'main:project_detail' team.namespace project.namespace %}">{{ project.name }}</a></li>
   {% endfor %}
 </ul>

@@ -32,11 +32,6 @@ class TeamDetail(generic.DetailView):
     pk_url_kwarg = "team_namespace"
     slug_url_kwarg = "team_namespace"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['team_projects'] = context['team'].get_projects()
-        return context
-
 
 class ProjectList(generic.ListView):
     model = Project
@@ -48,11 +43,6 @@ class ProjectDetail(TeamRequiredMixin, MultiSlugMixin, generic.DetailView):
     model = Project
     slug_url_kwargs = {"team": "team_namespace",
                        "namespace": "project_namespace"}
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['project_issues'] = context['project'].get_issues()
-        return context
 
 
 class IssueDetail(TeamRequiredMixin, generic.DetailView):
@@ -86,11 +76,6 @@ class UserDetail(generic.DetailView):
     model = User
     slug_field = 'username'
     slug_url_kwarg = 'username'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['user_teams'] = context['user'].get_teams()
-        return context
 
 
 def signup_view(request):

@@ -6,7 +6,12 @@ Solution Manager - Dashboard
 <h1>This is our homepage</h1>
 
 {% if user.is_authenticated %}
-    <p>Welcome back, {{ user.username }}!</p>
+
+<p>Welcome back, {{ user.username }}!</p>
+{% for project in user.get_projects %}
+<li><a href="{% url 'main:project_detail' project.team.namespace project.namespace %}">{{ project.name }}</a></li>
+{% endfor %}
+
 {% else %}
     <p>You're not logged in!</p>
 {% endif %}

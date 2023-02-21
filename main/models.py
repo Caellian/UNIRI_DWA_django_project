@@ -12,6 +12,15 @@ class User(AbstractUser):
     def get_teams(self):
         return Team.objects.filter(members=self)
 
+    def get_projects(self):
+        teams = self.get_teams()
+
+        projects = []
+        for team in teams:
+            projects += list(Project.objects.filter(team=team))
+
+        return projects
+
     def __str__(self):
         return f"{self.username} ({self.first_name} {self.last_name})"
 
@@ -107,7 +116,7 @@ class Comment(Model):
     class Meta:
         unique_together = (('issue', 'id'),)
 
-    id = models.AutoField(primary_key=True)
+    id = models.AutoField()
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
