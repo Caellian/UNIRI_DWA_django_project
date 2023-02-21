@@ -6,8 +6,9 @@ app_name = 'main'
 urlpatterns = [
     path('', views.Dashboard.as_view(), name='dashboard'),
 
-    path('signup/', views.signup, name='signup'),
-    path('login/', views.Login.as_view(), name='login'),
+    path('signup/', views.signup_view, name='signup'),
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
 
     path('teams/', views.TeamList.as_view(), name='team_list'),
     path('projects/', views.ProjectList.as_view(), name='project_list'),

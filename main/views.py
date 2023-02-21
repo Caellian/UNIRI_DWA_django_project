@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import LoginView
 
 from datetime import datetime
@@ -86,7 +86,9 @@ class UserDetail(generic.DetailView):
     slug_url_kwarg = 'username'
 
 
-def signup(request):
+def signup_view(request):
+    context = {}
+
     if request.method == 'POST':
         form = SignupForm(request.POST)
 
@@ -98,15 +100,29 @@ def signup(request):
             user = authenticate(username=username, password=password)
             login(request, user)
             return redirect('main:dashboard')
-    else:
-        form = SignupForm()
 
-    context = {'form': form}
+    context['form'] = SignupForm()
 
     return render(request, 'accounts/signup.html', context)
 
+def login_view(request):
+    context = {}
 
-class Login(LoginView):
-    authentication_form = LoginForm
-    template_name = 'accounts/login.html'
-    redirect_authenticated_user = True
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('main:dashboard')
+        else:
+            context['errors'] = ['invalid username or password'];
+    
+    context['form'] = LoginForm()
+
+    return render(request, 'accounts/login.html', context)
+
+def logout_view(request):
+    logout(request)
+    return redirect('main:dashboard')
