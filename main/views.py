@@ -12,7 +12,7 @@ import base64
 from .mixins import *
 from .models import *
 from .forms import *
-from .util import next_or_dashboard
+from .util import next_or_dashboard, get_next
 
 
 def today():
@@ -128,7 +128,7 @@ def login_view(request):
             context['errors'] = ['invalid username or password']
 
     context['form'] = LoginForm()
-    context['next'] = request.GET and request.GET.get("next")
+    context['next'] = get_next(request)
 
     return render(request, 'accounts/login.html', context)
 
