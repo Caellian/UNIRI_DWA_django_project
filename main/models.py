@@ -9,6 +9,9 @@ class User(AbstractUser):
     bio = models.TextField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
 
+    def get_teams(self):
+        return Team.objects.filter(members=self)
+
     def __str__(self):
         return f"{self.username} ({self.first_name} {self.last_name})"
 

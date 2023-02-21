@@ -10,4 +10,10 @@ Solution Manager - {{ user.username }}
 <p>Staff: {{ user.is_staff }}</p>
 <p>Last login: {{ user.last_login }}</p>
 <p>Bio: {{ user.bio }}</p>
+<h3>Teams</h3>
+<ul>
+    {% for team in user_teams %}
+    <li><a href="{% url 'main:team_detail' team.namespace %}" >{{ team.name }}</a></li>
+    {% endfor %}
+</ul>
 {% endblock %}

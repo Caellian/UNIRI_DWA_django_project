@@ -28,35 +28,35 @@ class Command(BaseCommand):
         self.stdout.write(f"- Creating {NUM_USERS} users...")
         for _ in range(NUM_USERS):
             UserFactory()
+        users = User.objects.all()
 
         # Create Teams
         self.stdout.write(f"- Creating {NUM_TEAMS} teams...")
         for _ in range(NUM_TEAMS):
             team = TeamFactory()
+        teams = Team.objects.all()
 
-            # Assign Users to Teams
-            self.stdout.write(f"\t- Assigning users to '{team.name}' team...")
-            for i in range(NUM_USERS):
-                if i % 2 == 0:
-                    team.members.add(User.objects.all()[i])
+        self.stdout.write("- Assigning users to teams...")
+        for i in range(NUM_USERS):
+            self.stdout.write(f"\t{users[i].username} -> {teams[i % NUM_TEAMS].namespace}")
+            teams[i % NUM_TEAMS].members.add(users[i])
 
         # Create Projects
         self.stdout.write(f"- Creating {NUM_PROJECTS} projects...")
         for i in range(NUM_PROJECTS):
-            team = Team.objects.all()[i % NUM_TEAMS]
+            team = teams[i % NUM_TEAMS]
+            members = team.members.all()
             project = ProjectFactory(team=team)
 
             def random_team_member():
-                return random.choice(team.members.all())
+                return random.choice(members)
 
             # Create Issues for each Project
-            self.stdout.write(f"\t- Creating {NUM_ISSUES} issues...")
+            self.stdout.write(f"\t- Creating {NUM_ISSUES} issues with {NUM_COMMENTS} comments...")
             for _ in range(NUM_ISSUES):
                 issue = IssueFactory(project=project)
 
                 # Create Comments for each Issue
-                self.stdout.write(
-                    f"\t\t- Creating {NUM_COMMENTS} issue comments...")
                 for _ in range(NUM_COMMENTS):
                     CommentFactory(issue=issue, author=random_team_member())
 

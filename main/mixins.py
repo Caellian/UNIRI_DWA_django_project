@@ -1,10 +1,13 @@
 from django.http import HttpResponseNotFound
 from django.utils.translation import gettext as _
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404
 
-# Source: https://stackoverflow.com/questions/62211927/in-django-class-based-views-how-i-do-i-use-multiple-slugs-with-slug-url-kwarg
-
+from .models import *
 
 class MultiSlugMixin:
+    # Source: https://stackoverflow.com/questions/62211927/in-django-class-based-views-how-i-do-i-use-multiple-slugs-with-slug-url-kwarg
+
     pk_url_kwarg = 'pk'
     slug_url_kwargs = {'slug': 'slug'}  # {field: url_kwarg}
     query_pk_and_slug = False
@@ -35,3 +38,21 @@ class MultiSlugMixin:
             raise HttpResponseNotFound(_("No %(verbose_name)s found matching the query") %
                                        {'verbose_name': queryset.model._meta.verbose_name})
         return obj
+
+
+class TeamRequiredMixin(LoginRequiredMixin):
+    team_model = Team
+
+    def dispatch(self, request, *args, **kwargs):
+        # Check if the user is authenticated
+        if not request.user.is_authenticated:
+            return self.handle_no_permission()
+
+        # Get the team
+        team = get_object_or_404(self.team_model, namespace=kwargs.get('team_namespace'))
+
+        # Check if the user is a member of the team
+        if not team.members.filter(id=request.user.id).exists():
+            return self.handle_no_permission()
+
+        return super().dispatch(request, *args, **kwargs)

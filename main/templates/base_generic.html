@@ -4,8 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{% block title %}Solution Manager{% endblock %}</title>
-    <meta name="description" content={% block head_description %}"A solution
-    management application"{% endblock %}>
+    <meta name="description" content={% block head_description %}"A solution management application"{% endblock %}>
     <meta name="author" content="Tin Svagelj" />
   </head>
   <body>
@@ -20,7 +19,7 @@
       </ul>
       {% if user.is_authenticated %}
         <p aria-label="username">{{ user.username }}</p>
-        <a href="{% url 'main:logout' %}">Logout</a>
+        <a href="{% url 'main:logout' %}?next={{ request.path }}">Logout</a>
       {% else %}
         <a href="{% url 'main:signup' %}">Signup</a>
         <a href="{% url 'main:login' %}">Login</a>

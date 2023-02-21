@@ -3,6 +3,8 @@ from django.views import generic
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import LoginView
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from datetime import datetime
 import base64
@@ -10,15 +12,15 @@ import base64
 from .mixins import *
 from .models import *
 from .forms import *
+from .util import next_or_dashboard
 
 
 def today():
     return datetime.now().strftime('%Y-%m-%d')
 
 
-class Dashboard(generic.View):
-    def get(self, request):
-        return render(request, 'dashboard.html')
+def dashboard(request):
+    return render(request, 'dashboard.html')
 
 
 class TeamList(generic.ListView):
@@ -42,7 +44,7 @@ class ProjectList(generic.ListView):
     slug_url_kwarg = "team_namespace"
 
 
-class ProjectDetail(MultiSlugMixin, generic.DetailView):
+class ProjectDetail(TeamRequiredMixin, MultiSlugMixin, generic.DetailView):
     model = Project
     slug_url_kwargs = {"team": "team_namespace",
                        "namespace": "project_namespace"}
@@ -53,7 +55,7 @@ class ProjectDetail(MultiSlugMixin, generic.DetailView):
         return context
 
 
-class IssueDetail(generic.DetailView):
+class IssueDetail(TeamRequiredMixin, generic.DetailView):
     model = Issue
     slug_field = "id"
     slug_url_kwarg = "issue_id"
@@ -85,6 +87,11 @@ class UserDetail(generic.DetailView):
     slug_field = 'username'
     slug_url_kwarg = 'username'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_teams'] = context['user'].get_teams()
+        return context
+
 
 def signup_view(request):
     context = {}
@@ -105,24 +112,27 @@ def signup_view(request):
 
     return render(request, 'accounts/signup.html', context)
 
+
 def login_view(request):
     context = {}
 
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        
+
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('main:dashboard')
+            return next_or_dashboard(request)
         else:
-            context['errors'] = ['invalid username or password'];
-    
+            context['errors'] = ['invalid username or password']
+
     context['form'] = LoginForm()
+    context['next'] = request.GET and request.GET.get("next")
 
     return render(request, 'accounts/login.html', context)
 
+
 def logout_view(request):
     logout(request)
-    return redirect('main:dashboard')
+    return next_or_dashboard(request)
