@@ -11,6 +11,7 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
 
     path('teams/', views.TeamList.as_view(), name='team_list'),
+    path('teams/new', views.TeamFormView.as_view(), name='team_form'),
     path('projects/', views.ProjectList.as_view(), name='project_list'),
     path('users/', views.UserList.as_view(), name='user_list'),
 

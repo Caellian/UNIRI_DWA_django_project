@@ -10,4 +10,12 @@ Solution Manager - Team List
   <li><a href="{% url 'main:team_detail' team.namespace %}">{{ team.name }}</a></li>
   {% endfor %}
 </ul>
+
+<h3 id="create">Create a team</h3>
+<form method="post" action="{% url 'main:team_form' %}" aria-labelledby="create">
+  {% csrf_token %}
+  {{ create_form.errors }}
+  {{ create_form.as_p }}
+  <input type="submit" value="Create a team" />
+</form>
 {% endblock %}

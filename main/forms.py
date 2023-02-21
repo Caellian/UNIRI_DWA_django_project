@@ -1,9 +1,10 @@
 
 from django import forms
 from .models import *
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField
+from django.contrib.auth.forms import UserCreationForm, UsernameField
+from django.utils.translation import gettext as _
 
-
+# UserCreationForm doesn't use get_user_model()
 class SignupForm(UserCreationForm):
     class Meta:
         model = User
@@ -11,8 +12,7 @@ class SignupForm(UserCreationForm):
         field_classes = {"username": UsernameField}
 
 
-class LoginForm(AuthenticationForm):
+class TeamForm(forms.ModelForm):
     class Meta:
-        model = User
-        fields = ("username",)
-        field_classes = {"username": UsernameField}
+        model = Team
+        fields = ('namespace', 'name')

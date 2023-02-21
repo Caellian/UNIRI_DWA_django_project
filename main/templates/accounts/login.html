@@ -1,6 +1,8 @@
 {% extends "base_generic.html" %} 
 {% block content %}
-<form method="post" action="{% url 'main:login' %}">
+<p>Don't have an account yet? <a href="{% url 'main:signup' %}">Sign up!</a></p>
+
+<form method="post" action="{{ request.path }}">
     {% csrf_token %}
     <table>
       <tr>
@@ -13,9 +15,10 @@
       </tr>
     </table>
 
-    {% if form.errors %}
-        <p>Invalid username or password.</p>
-    {% endif %}
+    {%if form.errors%}
+        <h3>Invalid input</h3>
+        {{ form.errors }}
+    {%endif%}
 
     <input type="submit" value="login" />
     <input type="hidden" name="next" value="{{ next }}" />

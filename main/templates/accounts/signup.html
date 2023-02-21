@@ -1,13 +1,14 @@
 {% extends "base_generic.html" %}
 {% block content %}
-<form method="post" action="{% url 'main:signup' %}">
+<form method="post" action="{{ request.path }}">
     {% csrf_token %}
 
-    {% if form.errors %}
-        <p>Greška.</p>
-    {% endif %}
+    {%if form.errors%}
+        <h3>Invalid input</h3>
+        {{ form.errors }}
+    {%endif%}
 
-    {{ form }}
+    {{ form.as_p }}
 
     <input type="submit" value="Register" />
 </form>

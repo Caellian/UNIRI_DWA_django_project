@@ -1,13 +1,10 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.views import generic
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.views import LoginView
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
+from django.urls import reverse_lazy
 
 from datetime import datetime
-import base64
 
 from .mixins import *
 from .models import *
@@ -25,6 +22,12 @@ def dashboard(request):
 
 class TeamList(generic.ListView):
     model = Team
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["create_form"] = TeamForm()
+        return context
+    
 
 
 class TeamDetail(generic.DetailView):
@@ -77,10 +80,13 @@ class UserDetail(generic.DetailView):
     slug_field = 'username'
     slug_url_kwarg = 'username'
 
+class TeamFormView(generic.edit.CreateView):
+    model = Team
+    fields = ['namespace', 'name']
+    template_name = "forms/team_form.html"
+    success_url = reverse_lazy('main:team_list')
 
 def signup_view(request):
-    context = {}
-
     if request.method == 'POST':
         form = SignupForm(request.POST)
 
@@ -89,31 +95,39 @@ def signup_view(request):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password1']
 
-            user = authenticate(username=username, password=password)
+            user = authenticate(request, username=username, password=password)
             login(request, user)
             return redirect('main:dashboard')
+    else:
+        form = SignupForm()
 
-    context['form'] = SignupForm()
+    context = {
+        'form': form
+    }
 
     return render(request, 'accounts/signup.html', context)
 
 
 def login_view(request):
-    context = {}
-
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+        form = AuthenticationForm(request, data=request.POST)
 
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return next_or_dashboard(request)
-        else:
-            context['errors'] = ['invalid username or password']
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return next_or_dashboard(request)
+            else:
+                form.add_error(None, 'Invalid username or password')
+    else:
+        form = AuthenticationForm()
 
-    context['form'] = LoginForm()
-    context['next'] = get_next(request)
+    context = {
+        'form': form,
+        'next': get_next(request)
+    }
 
     return render(request, 'accounts/login.html', context)
 
