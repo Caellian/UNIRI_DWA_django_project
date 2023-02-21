@@ -1,4 +1,13 @@
-{% extends "base_generic.html" %} {% block title %}Solution Manager - Dashboard
-{% endblock %} {% block content %}
-<p>Welcome!</p>
+{% extends "base_generic.html" %}
+{% block title %}
+Solution Manager - Dashboard
+{% endblock %}
+{% block content %}
+<h1>This is our homepage</h1>
+
+{% if user.is_authenticated %}
+    <p>Welcome back, {{ user.username }}!</p>
+{% else %}
+    <p>You're not logged in!</p>
+{% endif %}
 {% endblock %}

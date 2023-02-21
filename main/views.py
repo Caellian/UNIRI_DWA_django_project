@@ -1,13 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
-from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.views import LoginView
 
 from datetime import datetime
 import base64
 
 from .mixins import *
 from .models import *
-#from .forms import *
+from .forms import *
 
 
 def today():
@@ -82,3 +84,29 @@ class UserDetail(generic.DetailView):
     model = User
     slug_field = 'username'
     slug_url_kwarg = 'username'
+
+
+def signup(request):
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('main:dashboard')
+    else:
+        form = SignupForm()
+
+    context = {'form': form}
+
+    return render(request, 'accounts/signup.html', context)
+
+
+class Login(LoginView):
+    authentication_form = LoginForm
+    template_name = 'accounts/login.html'
+    redirect_authenticated_user = True

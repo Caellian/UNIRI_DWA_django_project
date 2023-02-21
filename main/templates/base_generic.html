@@ -10,14 +10,21 @@
   </head>
   <body>
     <h1><a href="{% url 'main:dashboard' %}">Issue Tracker</a></h1>
-    <nav id="sidebar">
-      {% block sidebar %}
-      <ul>
+    <nav>
+      {% block navbar %}
+      <ul class="links">
         <li><a href="{% url 'main:dashboard' %}">Home</a></li>
         <li><a href="{% url 'main:team_list' %}">Teams</a></li>
         <li><a href="{% url 'main:project_list' %}">Projects</a></li>
         <li><a href="{% url 'main:user_list' %}">Users</a></li>
       </ul>
+      {% if user.is_authenticated %}
+        <p aria-label="username">{{ user.username }}</p>
+        <a href="{% url 'main:logout' %}">Logout</a>
+      {% else %}
+        <a href="{% url 'main:signup' %}">Signup</a>
+        <a href="{% url 'main:login' %}">Login</a>
+      {% endif %}
       {% endblock %}
     </nav>
     <main class="content">{% block content %}{% endblock %}</main>

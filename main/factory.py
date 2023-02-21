@@ -12,7 +12,7 @@ class UserFactory(DjangoModelFactory):
         model = User
 
     email = factory.Faker('email')
-    password = factory.PostGenerationMethodCall('set_password', 'f4keuse3r')
+    password = factory.PostGenerationMethodCall('set_password', 'f4k3use3r')
     bio = factory.Faker("sentence", nb_words=120)
 
     is_superuser = False
