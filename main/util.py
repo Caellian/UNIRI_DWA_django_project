@@ -10,7 +10,7 @@ def get_next(request):
 
 def next_or_redirect(request, to):
     next = get_next(request)
-    if next is not None and isinstance(next, str) and next != "":
+    if next is not None and isinstance(next, str) and next != "" and '://' not in next:
         return redirect(next)
     else:
         return redirect(to)

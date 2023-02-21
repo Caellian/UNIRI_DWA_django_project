@@ -16,9 +16,9 @@ urlpatterns = [
 
     path('user/<str:username>', views.UserDetail.as_view(), name='user_detail'),
 
-    path('projects/<str:team_namespace>/', views.TeamDetail.as_view(), name='team_detail'),
-    path('projects/<str:team_namespace>/<str:project_namespace>/',
+    path('p/<str:team_namespace>/', views.TeamDetail.as_view(), name='team_detail'),
+    path('p/<str:team_namespace>/<str:project_namespace>/',
          views.ProjectDetail.as_view(), name='project_detail'),
-    path('projects/<str:team_namespace>/<str:project_namespace>/issue/<int:issue_id>/',
+    path('p/<str:team_namespace>/<str:project_namespace>/issue/<int:issue_id>/',
          views.IssueDetail.as_view(), name='issue_detail'),
 ]

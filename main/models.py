@@ -46,9 +46,12 @@ class ProjectSchedule(Model):
 
 class Project(Model):
     class Meta:
-        unique_together = (('team', 'namespace'),)
+        constraints = [
+            models.UniqueConstraint(
+                fields=['team', 'namespace'], name="team_project")
+        ]
 
-    namespace = models.CharField(primary_key=True, max_length=32)
+    namespace = models.CharField(max_length=32)
     name = models.CharField(max_length=64)
     description = models.TextField()
 
@@ -89,9 +92,11 @@ class IssuePriority(models.TextChoices):
 
 class Issue(Model):
     class Meta:
-        unique_together = (('project', 'id'),)
+        constraints = [
+            models.UniqueConstraint(
+                fields=['project', 'id'], name="project_issue")
+        ]
 
-    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
     description = models.TextField()
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
@@ -114,9 +119,11 @@ class Issue(Model):
 
 class Comment(Model):
     class Meta:
-        unique_together = (('issue', 'id'),)
+        constraints = [
+            models.UniqueConstraint(
+                fields=['issue', 'id'], name="issue_comment")
+        ]
 
-    id = models.AutoField()
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
