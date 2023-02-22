@@ -44,15 +44,13 @@ class TeamRequiredMixin(LoginRequiredMixin):
     team_model = Team
 
     def dispatch(self, request, *args, **kwargs):
-        # Check if the user is authenticated
         if not request.user.is_authenticated:
             return self.handle_no_permission()
 
-        # Get the team
-        team = get_object_or_404(self.team_model, namespace=kwargs.get('team_namespace'))
+        if "team_namespace" in kwargs:
+            team = get_object_or_404(self.team_model, namespace=kwargs.get('team_namespace'))
 
-        # Check if the user is a member of the team
-        if not team.members.filter(id=request.user.id).exists():
-            return self.handle_no_permission()
+            if not team.members.filter(id=request.user.id).exists():
+                return self.handle_no_permission()
 
         return super().dispatch(request, *args, **kwargs)

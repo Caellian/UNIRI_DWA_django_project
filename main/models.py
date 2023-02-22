@@ -64,9 +64,7 @@ class Project(Model):
 
     @classmethod
     def get_object(cls, team, project):
-        team = Team.objects.filter(namespace=team)
-        project = Project.objects.earliest(team=team, namespace=project).earliest()
-        return project
+        return Project.objects.filter(team_id=team, namespace=project).first()
 
     def __str__(self):
         return self.name
@@ -119,7 +117,7 @@ class Issue(Model):
     @classmethod
     def get_object(cls, team, project, id):
         project = Project.get_object(team, project)
-        return cls.objects.filter(project=project, id=id).first()
+        return cls.objects.earliest(project=project, id=id)
 
     def get_comments(self):
         return Comment.objects.filter(issue=self)

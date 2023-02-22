@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.conf import settings
 
 from datetime import datetime
@@ -40,6 +40,11 @@ class ProjectList(generic.ListView):
     model = Project
     pk_url_kwarg = "project_namespace"
     slug_url_kwarg = "team_namespace"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['team_namespace'] = self.kwargs['team_namespace']
+        return context
 
 
 class ProjectDetail(TeamRequiredMixin, MultiSlugMixin, generic.DetailView):
@@ -88,7 +93,7 @@ class TeamFormView(generic.edit.CreateView):
     success_url = reverse_lazy('main:team_list')
 
 
-class ProjectFormView(generic.edit.CreateView):
+class ProjectFormView(TeamRequiredMixin, generic.edit.CreateView):
     model = Project
     fields = ['namespace', 'team', 'name', 'description']
     template_name = "forms/project_form.html"
@@ -99,12 +104,13 @@ class ProjectFormView(generic.edit.CreateView):
         if "team_namespace" in self.kwargs:
             initial.update({'team': self.kwargs['team_namespace']})
         return initial
-    
+
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
         if "team_namespace" in self.kwargs:
             form.fields['team'].widget = forms.HiddenInput()
-            form.fields['team'].widget.attrs.update({'value': self.kwargs['team_namespace']})
+            form.fields['team'].widget.attrs.update(
+                {'value': self.kwargs['team_namespace']})
         return form
 
     def get_context_data(self, **kwargs):
@@ -114,24 +120,44 @@ class ProjectFormView(generic.edit.CreateView):
         return context
 
 
-class IssueFormView(generic.edit.CreateView):
-    model = Issue
-    fields = [
-        'title',
-        'description',
-        'status',
-        'priority',
-        'assigned'
-    ]
-    template_name = "forms/issue_form.html"
-    success_url = reverse_lazy('main:issue_list')
+class IssueFormView(generic.edit.FormView):
+    template_name = 'forms/issue_form.html'
+    form_class = IssueForm
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        project = Project.objects.filter(
-            team=self.kwargs['team_namespace'], namespace=self.kwargs['project_namespace'])
-        kwargs['initial']['project'] = project
-        return kwargs
+    def get_initial(self):
+        initial = super(IssueFormView, self).get_initial()
+        if 'team_namespace' in self.kwargs and 'project_namespace' in self.kwargs:
+            initial.update({'team': self.kwargs['team_namespace'],
+                            'project': self.kwargs['project_namespace']})
+        return initial
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        if 'team_namespace' in self.kwargs and 'project_namespace' in self.kwargs:
+            form.fields['team'].widget = forms.HiddenInput()
+            form.fields['team'].widget.attrs.update(
+                {'value': self.kwargs['team_namespace']})
+            form.fields['project'].widget = forms.HiddenInput()
+            form.fields['project'].widget.attrs.update(
+                {'value': self.kwargs['project_namespace']})
+        return form
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if 'team_namespace' in self.kwargs and 'project_namespace' in self.kwargs:
+            context['team_namespace'] = self.kwargs['team_namespace']
+            context['project_namespace'] = self.kwargs['project_namespace']
+        return context
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        team_namespace = self.form.cleaned_data['team']
+        project_namespace = self.form.cleaned_data['project']
+        issue_id = self.form.cleaned_data['id']
+        return reverse('main:issue_detail', team_namespace=team_namespace, project_namespace=project_namespace, id=issue_id)
 
 
 def signup_view(request):

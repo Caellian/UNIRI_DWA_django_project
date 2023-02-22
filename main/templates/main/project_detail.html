@@ -9,6 +9,7 @@ Solution Manager - Project List
 <p>Duration: {{project.schedule.start_date}} - {{project.schedule.end_date}}</p>
 <p>Team: {{project.team.name}}</p>
 <h3 id="issues">Issue List</h3>
+<a href="{% url 'main:issue_form' project.team.namespace project.namespace %}">Create an issue</a>
 <ul aria-labelledby="issues">
   {% for issue in project.get_issues %}
   <li><a href="{% url 'main:issue_detail' project.team.namespace project.namespace issue.id %}">{{ issue.title }}</a></li>

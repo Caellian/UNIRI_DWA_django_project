@@ -4,7 +4,7 @@ Solution Manager - Create Issue
 {% endblock %}
 {% block content %}
 <h1>Create an Issue</h1>
-<form method="post" action="{% url 'main:issue_form' %}">
+<form method="post" action="{{ request.path }}">
   {% csrf_token %}
   {{ form.errors }}
   {{ form.as_p }}

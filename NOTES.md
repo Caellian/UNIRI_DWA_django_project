@@ -11,14 +11,15 @@
 - [x] Generirane testne podatke pomoću factory boya
 - [x] Prikaz generiranih podataka za svaki entitet u modelu pomoću generičkih pogleda
 	- [x] Prikaz podataka pomoću List i/ili Detal Viewova
-- [ ] Forma za unos podataka
+- [x] Forma za unos podataka
 - [ ] Testovi
 - [x] Login i registracija
 
 **Ovisno o temi**
 
-- [ ] Unos novih vrijednosti u bazu
-- [ ] Prikaz i pretraga postojećih vrijednosti iz baze
+- [x] Unos novih vrijednosti u bazu
+- [x] Prikaz postojećih vrijednosti iz baze
+- [ ] Pretraga postojećih vrijednosti iz baze
 - [ ] Ažuriranje postojećih vrijednosti u bazi
 - [ ] Brisanje iz baze
 

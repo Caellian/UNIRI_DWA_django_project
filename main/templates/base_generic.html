@@ -18,6 +18,8 @@
         <li><a href="{% url 'main:team_list' %}">Teams</a></li>
         <li><a href="{% url 'main:project_list' %}">Projects</a></li>
         <li><a href="{% url 'main:user_list' %}">Users</a></li>
+        <li><a href="{% url 'main:team_form' %}">New Team</a></li>
+        <li><a href="{% url 'main:project_form' %}">New Project</a></li>
       </ul>
       {% if user.is_authenticated %}
         <p aria-label="username">{{ user.username }}</p>

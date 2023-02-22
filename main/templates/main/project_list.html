@@ -4,6 +4,7 @@ Solution Manager - Project List
 {% endblock %}
 {% block content %}
 <br />
+<a href="{% url 'main:project_form' team_namespace %}">Create a project</a>
 <h2>Project List</h2>
 <ul class="projects">
   {% for project in project_list %}

@@ -4,6 +4,8 @@ Solution Manager - Team List
 {% endblock %}
 {% block content %}
 <br />
+<a href="{% url 'main:team_form' %}">Create a team</a>
+
 <h2>Teams</h2>
 <ul class="teams">
   {% for team in team_list %}

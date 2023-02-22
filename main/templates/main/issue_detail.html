@@ -16,7 +16,7 @@ Solution Manager - Issue List
 
 <h3 id="comments">Comments</h3>
 <ul aria-labelledby="comments">
-    {% for comment in issue_comments %}
+    {% for comment in issue.get_comments %}
     <li>
         <p>{{ comment.text }}</p>
         <p>{{ comment.created_at }} - {{ comment.author }}</p>

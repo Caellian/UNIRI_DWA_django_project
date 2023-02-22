@@ -14,6 +14,10 @@ urlpatterns = [
     path('projects/', views.ProjectList.as_view(), name='project_list'),
     path('users/', views.UserList.as_view(), name='user_list'),
 
+    path('new_team/', views.TeamFormView.as_view(), name='team_form'),
+    path('new_project/', views.ProjectFormView.as_view(), name='project_form'),
+    path('new_issue/', views.IssueFormView.as_view(), name='issue_form'),
+
     path('user/<str:username>', views.UserDetail.as_view(), name='user_detail'),
 
     path('t/<str:team_namespace>/', views.TeamDetail.as_view(), name='team_detail'),
@@ -22,9 +26,8 @@ urlpatterns = [
     path('p/<str:team_namespace>/<str:project_namespace>/issue/<int:issue_id>/',
          views.IssueDetail.as_view(), name='issue_detail'),
 
-    path('teams/new', views.TeamFormView.as_view(), name='team_form'),
-    path('t/new_project', views.ProjectFormView.as_view(), name='project_form'),
-    path('t/<str:team_namespace>/new_project', views.ProjectFormView.as_view(), name='project_form'),
+    path('t/<str:team_namespace>/new_project',
+         views.ProjectFormView.as_view(), name='project_form'),
     path('t/<str:team_namespace>/p/<str:project_namespace>/new_issue',
          views.IssueFormView.as_view(), name='issue_form'),
 ]
