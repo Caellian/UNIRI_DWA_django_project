@@ -1,0 +1,13 @@
+{% extends "base_generic.html" %}
+{% block title %}
+Solution Manager - Delete #{{ issue.id }}
+{% endblock %}
+{% block content %}
+  <h2>Confirm Delete</h2>
+  <p>Are you sure you want to delete issue #{{ issue.id }}" ({{ issue.title }})?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Delete</button>
+    <a href="{% url 'main:project_detail' issue.project.team.namespace issue.project.namespace %}">Cancel</a>
+  </form>
+{% endblock %}

@@ -13,7 +13,7 @@ Solution Manager - Issue List
 <p>Assigned: {{issue.assigned}}</p>
 <p>Created: {{issue.created_at}}</p>
 <p>Updated: {{issue.updated_at}}</p>
-
+<a href="{% url 'main:issue_delete' issue.project.team.namespace issue.project.namespace issue.id %}">Delete issue</a>
 <h3 id="comments">Comments</h3>
 <ul aria-labelledby="comments">
     {% for comment in issue.get_comments %}

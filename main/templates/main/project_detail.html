@@ -8,6 +8,9 @@ Solution Manager - Project List
 <p>{{project.description}}</p>
 <p>Duration: {{project.schedule.start_date}} - {{project.schedule.end_date}}</p>
 <p>Team: {{project.team.name}}</p>
+
+<a href="{% url 'main:project_delete' project.team.namespace project.namespace %}">Delete project</a>
+
 <h3 id="issues">Issue List</h3>
 <a href="{% url 'main:issue_form' project.team.namespace project.namespace %}">Create an issue</a>
 <ul aria-labelledby="issues">

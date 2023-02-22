@@ -28,6 +28,8 @@ urlpatterns = [
          views.ProjectDelete.as_view(), name='project_delete'),
     path('p/<str:team_namespace>/<str:project_namespace>/issue/<int:issue_id>/',
          views.IssueDetail.as_view(), name='issue_detail'),
+    path('p/<str:team_namespace>/<str:project_namespace>/issue/<int:issue_id>/delete',
+         views.IssueDelete.as_view(), name='issue_delete'),
 
     path('t/<str:team_namespace>/new_project',
          views.ProjectFormView.as_view(), name='project_form'),

@@ -92,6 +92,19 @@ class IssueDetail(TeamRequiredMixin, generic.DetailView):
         return result
 
 
+class IssueDelete(MultiSlugMixin, generic.edit.DeleteView):
+    model = Issue
+    slug_url_kwargs = {"project__team__namespace": "team_namespace",
+                       "project__namespace": "project_namespace",
+                       "id": "issue_id"}
+    template_name = 'forms/issue_delete.html'
+
+    def get_success_url(self):
+        team_namespace = self.kwargs['team_namespace']
+        project_namespace = self.kwargs['project_namespace']
+        return reverse('main:project_detail', args=[team_namespace, project_namespace])
+
+
 class UserList(generic.ListView):
     model = User
 
