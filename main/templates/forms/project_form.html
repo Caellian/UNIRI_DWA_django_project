@@ -1,0 +1,22 @@
+{% extends "base_generic.html" %}
+{% block title %}
+Solution Manager - Create Project
+{% endblock %}
+{% block content %}
+<h1>Create Project</h1>
+<form id="project_form" method="post" action="{{ request.path }}">
+  {% csrf_token %}
+  {{ form.errors }}
+  {{ form.as_p }}
+  <input type="submit" value="Create" />
+</form>
+{% if team_namespace %}
+<script>
+  var form = document.getElementById('project_form');
+  var team = document.getElementById('id_team');
+  form.addEventListener('change', function() {
+      form.action = '/t/' + team.value + '/new_project';
+  });
+</script>
+{% endif %}
+{% endblock %}

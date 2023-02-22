@@ -55,12 +55,18 @@ class Project(Model):
     name = models.CharField(max_length=64)
     description = models.TextField()
 
-    team = models.ForeignKey(Team, null=True, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
     schedule = models.OneToOneField(
         ProjectSchedule, null=True, on_delete=models.SET_NULL)
 
     def get_issues(self):
         return Issue.objects.filter(project=self)
+
+    @classmethod
+    def get_object(cls, team, project):
+        team = Team.objects.filter(namespace=team)
+        project = Project.objects.earliest(team=team, namespace=project).earliest()
+        return project
 
     def __str__(self):
         return self.name
@@ -97,7 +103,7 @@ class Issue(Model):
                 fields=['project', 'id'], name="project_issue")
         ]
 
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=128)
     description = models.TextField()
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     status = models.CharField(max_length=2)
@@ -109,6 +115,11 @@ class Issue(Model):
         User, null=True, on_delete=models.SET_NULL, related_name="issue_assigned")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    @classmethod
+    def get_object(cls, team, project, id):
+        project = Project.get_object(team, project)
+        return cls.objects.filter(project=project, id=id).first()
 
     def get_comments(self):
         return Comment.objects.filter(issue=self)

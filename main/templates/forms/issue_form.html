@@ -1,10 +1,10 @@
 {% extends "base_generic.html" %}
 {% block title %}
-Solution Manager - Create Team
+Solution Manager - Create Issue
 {% endblock %}
 {% block content %}
-<h1>Create Team</h1>
-<form method="post" action="{% url 'main:team_form' %}">
+<h1>Create an Issue</h1>
+<form method="post" action="{% url 'main:issue_form' %}">
   {% csrf_token %}
   {{ form.errors }}
   {{ form.as_p }}

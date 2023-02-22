@@ -7,3 +7,4 @@ mkdir main/migrations solution_manager/migrations
 touch main/migrations/__init__.py solution_manager/migrations/__init__.py
 python3 ./manage.py makemigrations
 python3 ./manage.py migrate --run-syncdb
+python3 ./manage.py setup_test_data
