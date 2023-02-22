@@ -58,6 +58,16 @@ class ProjectDetail(TeamRequiredMixin, MultiSlugMixin, generic.DetailView):
     slug_url_kwargs = {"team": "team_namespace",
                        "namespace": "project_namespace"}
 
+class ProjectDelete(MultiSlugMixin, generic.edit.DeleteView):
+    model = Project
+    slug_url_kwargs = {"team": "team_namespace",
+                       "namespace": "project_namespace"}
+    template_name = 'forms/project_delete.html'
+
+    def get_success_url(self):
+        team_namespace = self.kwargs['team_namespace']
+        return reverse('main:team_detail', args=[team_namespace])
+
 
 class IssueDetail(TeamRequiredMixin, generic.DetailView):
     model = Issue

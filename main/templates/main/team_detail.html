@@ -9,7 +9,10 @@ Solution Manager - {{ team.namespace }}
 <a href="{% url 'main:project_form' team.namespace %}">Create a project</a>
 <ul aria-labelledby="projects">
   {% for project in team.get_projects %}
-  <li><a href="{% url 'main:project_detail' team.namespace project.namespace %}">{{ project.name }}</a></li>
+  <li>
+    <a href="{% url 'main:project_detail' team.namespace project.namespace %}">{{ project.name }}</a>
+    <a href="{% url 'main:project_delete' team.namespace project.namespace %}">Delete</a>
+  </li>
   {% endfor %}
 </ul>
 <br />

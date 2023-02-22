@@ -24,6 +24,8 @@ urlpatterns = [
     path('t/<str:team_namespace>/delete', views.TeamDelete.as_view(), name='team_delete'),
     path('t/<str:team_namespace>/p/<str:project_namespace>/',
          views.ProjectDetail.as_view(), name='project_detail'),
+     path('t/<str:team_namespace>/p/<str:project_namespace>/delete',
+         views.ProjectDelete.as_view(), name='project_delete'),
     path('p/<str:team_namespace>/<str:project_namespace>/issue/<int:issue_id>/',
          views.IssueDetail.as_view(), name='issue_detail'),
 
