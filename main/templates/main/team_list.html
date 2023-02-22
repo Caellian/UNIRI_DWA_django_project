@@ -9,7 +9,10 @@ Solution Manager - Team List
 <h2>Teams</h2>
 <ul class="teams">
   {% for team in team_list %}
-  <li><a href="{% url 'main:team_detail' team.namespace %}">{{ team.name }}</a></li>
+  <li>
+    <a href="{% url 'main:team_detail' team.namespace %}">{{ team.name }}</a>
+    <a href="{% url 'main:team_delete' team.namespace %}">Delete</a>
+  </li>
   {% endfor %}
 </ul>
 

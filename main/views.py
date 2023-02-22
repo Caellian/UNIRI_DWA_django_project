@@ -35,6 +35,12 @@ class TeamDetail(generic.DetailView):
     pk_url_kwarg = "team_namespace"
     slug_url_kwarg = "team_namespace"
 
+class TeamDelete(generic.edit.DeleteView):
+    model = Team
+    pk_url_kwarg = "team_namespace"
+    slug_url_kwarg = "team_namespace"
+    template_name = 'forms/team_delete.html'
+    success_url = reverse_lazy('main:team_list')
 
 class ProjectList(generic.ListView):
     model = Project

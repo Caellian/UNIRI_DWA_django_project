@@ -21,6 +21,7 @@ urlpatterns = [
     path('user/<str:username>', views.UserDetail.as_view(), name='user_detail'),
 
     path('t/<str:team_namespace>/', views.TeamDetail.as_view(), name='team_detail'),
+    path('t/<str:team_namespace>/delete', views.TeamDelete.as_view(), name='team_delete'),
     path('t/<str:team_namespace>/p/<str:project_namespace>/',
          views.ProjectDetail.as_view(), name='project_detail'),
     path('p/<str:team_namespace>/<str:project_namespace>/issue/<int:issue_id>/',
