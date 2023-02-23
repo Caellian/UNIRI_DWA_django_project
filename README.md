@@ -1,7 +1,8 @@
 **Zadatak:** Issue Tracker
 
-[Dokumentacija](https://gaseri.org/hr/nastava/materijali/python-modul-django)
-[TODO](./NOTES.md)
+- [GitHub](https://github.com/Caellian/UNIRI_DWA_django_project)
+- [Dokumentacija](https://gaseri.org/hr/nastava/materijali/python-modul-django)
+- [TODO](./NOTES.md)
 
 ## Opis
 Web aplikacija za praćenje greška i problema u softverskom kodu.
