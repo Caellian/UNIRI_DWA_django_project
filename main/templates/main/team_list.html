@@ -16,6 +16,7 @@ Solution Manager - Team List
   {% endfor %}
 </ul>
 
+{% if user.is_authenticated %}
 <h3 id="create">Create a team</h3>
 <form method="post" action="{% url 'main:team_form' %}" aria-labelledby="create">
   {% csrf_token %}
@@ -23,4 +24,5 @@ Solution Manager - Team List
   {{ create_form.as_p }}
   <input type="submit" value="Create a team" />
 </form>
+{% endif %}
 {% endblock %}

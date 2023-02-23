@@ -4,14 +4,20 @@ Solution Manager - Project List
 {% endblock %}
 {% block content %}
 <br />
+{% if team_namespace %}
 <a href="{% url 'main:project_form' team_namespace %}">Create a project</a>
+{% else %}
+<a href="{% url 'main:project_form' %}">Create a project</a>
+{% endif %}
 <h2>Project List</h2>
 <ul class="projects">
   {% for project in project_list %}
+  {% if not team_namespace or team_namespace == project.team.namespace %}
   <a href="{% url 'main:project_detail' project.team.namespace project.namespace %}"><li>
     <h4>{{ project.name }}</h4>
-    <p>{{project.team.name}}</p>
+    <p>{{ project.team.name }}</p>
   </li></a>
+  {% endif %}
   {% endfor %}
 </ul>
 {% endblock %}

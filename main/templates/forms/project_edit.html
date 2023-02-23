@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+{% block title %}
+Solution Manager - Edit {{ project.team.namespace }}/{{ project.namespace }}
+{% endblock %}
+{% block content %}
+<h1>Edit project ({{ project.team.namespace }}/{{ project.namespace }})</h1>
+<form method="post" action="{{ request.path }}">
+  {% csrf_token %}
+  {{ form.errors }}
+  {{ form.as_p }}
+  <input type="submit" value="Update" />
+  <a href="{% url 'main:project_detail' project.team.namespace project.namespace %}">Cancel</a>
+</form>
+{% endblock %}

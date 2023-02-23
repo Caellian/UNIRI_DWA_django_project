@@ -9,6 +9,7 @@ Solution Manager - Project List
 <p>Duration: {{project.schedule.start_date}} - {{project.schedule.end_date}}</p>
 <p>Team: {{project.team.name}}</p>
 
+<a href="{% url 'main:project_edit' project.team.namespace project.namespace %}">Edit project</a>
 <a href="{% url 'main:project_delete' project.team.namespace project.namespace %}">Delete project</a>
 
 <h3 id="issues">Issue List</h3>
@@ -18,7 +19,7 @@ Solution Manager - Project List
   <li><a href="{% url 'main:issue_detail' project.team.namespace project.namespace issue.id %}">{{ issue.title }}</a></li>
   {% endfor %}
 </ul>
-<h3 id="members">List of Member</h3>
+<h3 id="members">List of Members</h3>
 <ul aria-labelledby="members">
   {% for member in project.team.members.all %}
   <li>{{ member.first_name }} {{ member.last_name }}</li>

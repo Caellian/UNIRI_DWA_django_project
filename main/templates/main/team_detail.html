@@ -5,9 +5,10 @@ Solution Manager - {{ team.namespace }}
 {% block content %}
 <br />
 <h2>Team {{ team.name }}</h2>
+<a href="{% url 'main:team_delete' team.namespace %}">Delete team</a>
+
 <h3 id="projects">Projects</h3>
 <a href="{% url 'main:project_form' team.namespace %}">Create a project</a>
-<a href="{% url 'main:team_delete' team.namespace %}">Delete team</a>
 <ul aria-labelledby="projects">
   {% for project in team.get_projects %}
   <li>

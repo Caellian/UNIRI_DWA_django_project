@@ -35,12 +35,14 @@ class TeamDetail(generic.DetailView):
     pk_url_kwarg = "team_namespace"
     slug_url_kwarg = "team_namespace"
 
+
 class TeamDelete(generic.edit.DeleteView):
     model = Team
     pk_url_kwarg = "team_namespace"
     slug_url_kwarg = "team_namespace"
     template_name = 'forms/team_delete.html'
     success_url = reverse_lazy('main:team_list')
+
 
 class ProjectList(generic.ListView):
     model = Project
@@ -49,7 +51,8 @@ class ProjectList(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['team_namespace'] = self.kwargs['team_namespace']
+        if 'team_namespace' in self.kwargs:
+            context['team_namespace'] = self.kwargs['team_namespace']
         return context
 
 
@@ -57,6 +60,7 @@ class ProjectDetail(TeamRequiredMixin, MultiSlugMixin, generic.DetailView):
     model = Project
     slug_url_kwargs = {"team": "team_namespace",
                        "namespace": "project_namespace"}
+
 
 class ProjectDelete(MultiSlugMixin, generic.edit.DeleteView):
     model = Project
@@ -67,6 +71,17 @@ class ProjectDelete(MultiSlugMixin, generic.edit.DeleteView):
     def get_success_url(self):
         team_namespace = self.kwargs['team_namespace']
         return reverse('main:team_detail', args=[team_namespace])
+
+
+class ProjectEdit(MultiSlugMixin, generic.edit.UpdateView):
+    model = Project
+    fields = ['namespace', 'name', 'description', 'team', 'schedule']
+    template_name = 'forms/project_edit.html'
+    slug_url_kwargs = {"team__namespace": "team_namespace",
+                       "namespace": "project_namespace"}
+
+    def get_success_url(self):
+        return reverse('main:project_detail', team_namespace=self.kwargs["team_namespace"], project_namespace=self.kwargs["project_namespace"])
 
 
 class IssueDetail(TeamRequiredMixin, generic.DetailView):
@@ -98,11 +113,12 @@ class IssueDelete(MultiSlugMixin, generic.edit.DeleteView):
                        "project__namespace": "project_namespace",
                        "id": "issue_id"}
     template_name = 'forms/issue_delete.html'
-
+            
     def get_success_url(self):
         team_namespace = self.kwargs['team_namespace']
         project_namespace = self.kwargs['project_namespace']
         return reverse('main:project_detail', args=[team_namespace, project_namespace])
+
 
 class IssueEdit(MultiSlugMixin, generic.edit.UpdateView):
     model = Issue
@@ -113,7 +129,7 @@ class IssueEdit(MultiSlugMixin, generic.edit.UpdateView):
                        "id": "issue_id"}
 
     def get_success_url(self):
-        return reverse('main:issue_detail', **self.kwargs)
+        return reverse('main:issue_detail', team_namespace=self.kwargs["team_namespace"], project_namespace=self.kwargs["project_namespace"], issue_id=self.kwargs["issue_id"])
 
 
 class UserList(generic.ListView):
