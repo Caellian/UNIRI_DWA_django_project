@@ -1,2 +1,23 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem; }
+  nav h1 {
+    flex-grow: 1; }
+  nav .links {
+    list-style: none;
+    display: flex;
+    gap: 1ch;
+    font-size: 0.9rem; }
+  nav .user-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1ch;
+    font-size: 0.8rem; }
+
+.search {
+  width: 30vw;
+  margin-left: auto; }
 
 /*# sourceMappingURL=global.css.map */

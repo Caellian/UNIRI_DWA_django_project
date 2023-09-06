@@ -16,12 +16,12 @@
       type="text/css"
       href="{% sass_src 'style/global.sass' %}"
     />
+    {% component_css_dependencies %}
   </head>
   <body>
-    <h1><a href="{% url 'main:dashboard' %}">Solution Manager</a></h1>
     <nav>
+      <h1><a href="{% url 'main:dashboard' %}">Solution Manager</a></h1>
       {% block navbar %}
-      {% component "search" %}
       <ul class="links">
         <li><a href="{% url 'main:dashboard' %}">Home</a></li>
         <li><a href="{% url 'main:team_list' %}">Teams</a></li>
@@ -30,6 +30,8 @@
         <li><a href="{% url 'main:team_form' %}">New Team</a></li>
         <li><a href="{% url 'main:project_form' %}">New Project</a></li>
       </ul>
+      {% endblock %}
+      <div class="user-details">
       {% if user.is_authenticated %}
         <p aria-label="username">{{ user.username }}</p>
         <a href="{% url 'main:logout' %}?next={{ request.path }}">Logout</a>
@@ -37,8 +39,10 @@
         <a href="{% url 'main:signup' %}">Signup</a>
         <a href="{% url 'main:login' %}">Login</a>
       {% endif %}
-      {% endblock %}
+      </div>
     </nav>
+    {% component "search" %}
     <main class="content">{% block content %}{% endblock %}</main>
+    {% component_js_dependencies %}
   </body>
 </html>
