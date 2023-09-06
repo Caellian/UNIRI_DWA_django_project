@@ -5,7 +5,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse, reverse_lazy
 from django.conf import settings
 from django.db.models import Q
-
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
+from django.http import JsonResponse, Http404
 
 from datetime import datetime
 
@@ -94,6 +96,7 @@ class IssueDetail(TeamRequiredMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['issue_comments'] = context['issue'].get_comments()
+        context["create_form"] = CommentForm()
         return context
 
     def get_object(self):
@@ -300,3 +303,49 @@ def search(request):
         "issues": issues
     }
     return render(request, 'main/search.html', context)
+
+@login_required
+@require_http_methods(["POST"])
+def create_comment(request, team_namespace, project_namespace, issue_id):
+    form = CommentForm(request.POST)
+    if form.is_valid():
+        # Retrieve the issue using the provided parameters
+        issue = get_object_or_404(
+            Issue,
+            project__team__namespace=team_namespace,
+            project__namespace=project_namespace,
+            id=issue_id
+        )
+
+        # Create a new comment associated with the issue and the current user
+        comment = form.save(commit=False)
+        comment.issue = issue
+        comment.author = request.user
+        comment.save()
+
+        return redirect('main:issue_detail', team_namespace=team_namespace, project_namespace=project_namespace, issue_id=issue_id)
+    else:
+        return JsonResponse({'error': 'Invalid data'}, status=400)
+
+@login_required
+@require_http_methods(["DELETE"])
+def delete_comment(request, team_namespace, project_namespace, issue_id, comment_id):
+    # Retrieve the issue using the provided parameters
+    issue = get_object_or_404(
+        Issue,
+        project__team__namespace=team_namespace,
+        project__namespace=project_namespace,
+        id=issue_id
+    )
+    
+    # Retrieve the comment using the provided comment_id
+    comment = get_object_or_404(Comment, id=comment_id, issue=issue)
+
+    # Check if the user is the author of the comment
+    if comment.author != request.user:
+        return JsonResponse({'error': 'You do not have permission to delete this comment.'}, status=400)
+
+    # Delete the comment
+    comment.delete()
+
+    return JsonResponse({'message': 'Comment deleted successfully'})

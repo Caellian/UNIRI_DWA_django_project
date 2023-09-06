@@ -19,7 +19,7 @@
 
 - [x] Unos novih vrijednosti u bazu
 - [x] Prikaz postojećih vrijednosti iz baze
-- [ ] Pretraga postojećih vrijednosti iz baze
+- [x] Pretraga postojećih vrijednosti iz baze
 - [x] Ažuriranje postojećih vrijednosti u bazi
 - [x] Brisanje iz baze
 

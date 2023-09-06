@@ -18,10 +18,50 @@ Solution Manager - Issue List
 <h3 id="comments">Comments</h3>
 <ul aria-labelledby="comments">
     {% for comment in issue.get_comments %}
-    <li>
+    <li id="comment-{{ comment.id }}">
         <p>{{ comment.text }}</p>
         <p>{{ comment.created_at }} - {{ comment.author }}</p>
+        {% if comment.author == request.user %}
+        <button onclick="deleteComment({{ comment.id }})" class="delete-comment-button">Delete</button>
+        {% endif %}
     </li>
     {% endfor %}
 </ul>
+<form method="post" action="{% url 'main:create_comment' issue.project.team.namespace issue.project.namespace issue.id %}">
+  {% csrf_token %}
+  {{ create_form.errors }}
+  {{ create_form.as_p }}
+  <input type="submit" value="Comment" />
+</form>
+
+<script>
+    function deleteComment(commentId) {
+        const currentPath = window.location.pathname;
+        // Make an AJAX request to delete the comment
+        fetch(`${currentPath}/comment/${commentId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'), // Include the CSRF token
+            },
+        })
+        .then(response => {
+            if (response.ok) {
+                // Remove the corresponding <li> element from the DOM
+                const commentElement = document.getElementById(`comment-${commentId}`);
+                if (commentElement) {
+                    commentElement.remove();
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting comment:', error);
+        });
+    }
+
+    // Function to get the CSRF token from cookies
+    function getCookie(name) {
+        const cookieValue = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+        return cookieValue ? cookieValue.pop() : '';
+    }
+</script>
 {% endblock %}

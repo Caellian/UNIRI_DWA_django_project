@@ -47,8 +47,6 @@ class TeamForm(forms.ModelForm):
     class Meta:
         model = Team
         fields = ('namespace', 'name')
-
-
 class IssueForm(forms.Form):
     team = forms.ModelChoiceField(queryset=Team.objects.all())
     project = forms.ModelChoiceField(queryset=Project.objects.all())
@@ -82,6 +80,10 @@ class IssueForm(forms.Form):
         issue = Issue(*data)
         issue.save()
 
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['text']
 
 class ProjectForm(forms.ModelForm):
     namespace = forms.CharField(max_length=32)

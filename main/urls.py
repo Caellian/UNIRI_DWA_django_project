@@ -41,6 +41,10 @@ urlpatterns = [
          views.IssueDelete.as_view(), name='issue_delete'),
     path('p/<str:team_namespace>/<str:project_namespace>/issue/<int:issue_id>/edit',
          views.IssueEdit.as_view(), name='issue_edit'),
+    path('p/<str:team_namespace>/<str:project_namespace>/issue/<int:issue_id>/comment',
+         views.create_comment, name='create_comment'),
+    path('p/<str:team_namespace>/<str:project_namespace>/issue/<int:issue_id>/comment/<int:comment_id>',
+         views.delete_comment, name='delete_comment'),
 
     path("search", views.search, name='search')
 ]
