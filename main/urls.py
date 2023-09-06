@@ -32,7 +32,9 @@ urlpatterns = [
          views.ProjectDelete.as_view(), name='project_delete'),
     path('t/<str:team_namespace>/p/<str:project_namespace>/edit',
          views.ProjectEdit.as_view(), name='project_edit'),
-         
+
+    path('t/<str:team_namespace>/p/<str:project_namespace>/new_issue',
+         views.IssueFormView.as_view(), name='issue_form'),
     path('p/<str:team_namespace>/<str:project_namespace>/issue/<int:issue_id>/',
          views.IssueDetail.as_view(), name='issue_detail'),
     path('p/<str:team_namespace>/<str:project_namespace>/issue/<int:issue_id>/delete',
@@ -40,6 +42,5 @@ urlpatterns = [
     path('p/<str:team_namespace>/<str:project_namespace>/issue/<int:issue_id>/edit',
          views.IssueEdit.as_view(), name='issue_edit'),
 
-    path('t/<str:team_namespace>/p/<str:project_namespace>/new_issue',
-         views.IssueFormView.as_view(), name='issue_form'),
+    path("search", views.search, name='search')
 ]

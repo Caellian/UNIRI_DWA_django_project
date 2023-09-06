@@ -1,3 +1,5 @@
+{% load sass_tags %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,11 +10,18 @@
     <meta name="author" content="Tin Svagelj" />
 
     <link rel="icon" type="image/png" href="https://global.discourse-cdn.com/business7/uploads/djangoproject/optimized/1X/d7166b07bd538877fa4b0236f0fb5410098bda98_2_32x32.png">
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% sass_src 'style/global.sass' %}"
+    />
   </head>
   <body>
     <h1><a href="{% url 'main:dashboard' %}">Solution Manager</a></h1>
     <nav>
       {% block navbar %}
+      {% component "search" %}
       <ul class="links">
         <li><a href="{% url 'main:dashboard' %}">Home</a></li>
         <li><a href="{% url 'main:team_list' %}">Teams</a></li>

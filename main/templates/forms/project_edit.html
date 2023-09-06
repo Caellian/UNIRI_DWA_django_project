@@ -6,8 +6,67 @@ Solution Manager - Edit {{ project.team.namespace }}/{{ project.namespace }}
 <h1>Edit project ({{ project.team.namespace }}/{{ project.namespace }})</h1>
 <form method="post" action="{{ request.path }}">
   {% csrf_token %}
-  {{ form.errors }}
-  {{ form.as_p }}
+
+  <div>
+    {{ form.namespace.label_tag }}
+    {{ form.namespace }}
+    {% if form.namespace.errors %}
+      <ul class="errorlist">
+        {% for error in form.namespace.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+  
+  <div>
+    {{ form.name.label_tag }}
+    {{ form.name }}
+    {% if form.name.errors %}
+      <ul class="errorlist">
+        {% for error in form.name.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+  
+  <div>
+    {{ form.description.label_tag }}
+    {{ form.description }}
+    {% if form.description.errors %}
+      <ul class="errorlist">
+        {% for error in form.description.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+  
+  <div>
+    {{ form.team.label_tag }}
+    {{ form.team }}
+    {% if form.team.errors %}
+      <ul class="errorlist">
+        {% for error in form.team.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+  
+  <div>
+    {{ form.schedule.label_tag }}
+    {{ form.schedule }}
+    {% if form.schedule.errors %}
+      <ul class="errorlist">
+        {% for error in form.schedule.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+
   <input type="submit" value="Update" />
   <a href="{% url 'main:project_detail' project.team.namespace project.namespace %}">Cancel</a>
 </form>

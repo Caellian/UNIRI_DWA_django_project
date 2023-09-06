@@ -12,7 +12,7 @@
 - [x] Prikaz generiranih podataka za svaki entitet u modelu pomoću generičkih pogleda
 	- [x] Prikaz podataka pomoću List i/ili Detal Viewova
 - [x] Forma za unos podataka
-- [ ] Testovi
+- [x] Testovi
 - [x] Login i registracija
 
 **Ovisno o temi**
@@ -20,8 +20,10 @@
 - [x] Unos novih vrijednosti u bazu
 - [x] Prikaz postojećih vrijednosti iz baze
 - [ ] Pretraga postojećih vrijednosti iz baze
-- [ ] Ažuriranje postojećih vrijednosti u bazi
-- [ ] Brisanje iz baze
+- [x] Ažuriranje postojećih vrijednosti u bazi
+- [x] Brisanje iz baze
+
+- [ ] Uređivanje schedulea na projektima
 
 **Dodatno:**
 

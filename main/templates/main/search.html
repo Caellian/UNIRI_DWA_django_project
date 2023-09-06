@@ -1,0 +1,53 @@
+{% extends "base_generic.html" %}
+{% block title %}
+Solution Manager - Search
+{% endblock %}
+{% block content %}
+
+{% if projects %}
+<h2>Projects</h2>
+<ul>
+{% for project in projects %}
+<li>
+  <a href="{% url 'main:project_detail' project.team.namespace project.namespace %}">{{ project.name }}</a>
+</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if teams %}
+<h2>Teams</h2>
+<ul>
+{% for team in teams %}
+<li>
+  <a href="{% url 'main:team_detail' team.namespace %}">{{ team.name }}</a>
+</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if users %}
+<h2>Users</h2>
+<ul>
+{% for user in users %}
+<li>
+    <a href="{% url 'main:user_detail' user.username %}">
+        {{ user.first_name }} {{ user.last_name }} ({{ user.username }})
+    </a>
+</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if issues %}
+<h2>Issues</h2>
+<ul>
+{% for issue in issues %}
+<li>
+    <a href="{% url 'main:issue_detail' issue.project.team.namespace issue.project.namespace issue.id %}">{{ issue.project.name }} &gt; {{ issue.title }}</a>
+</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% endblock %}

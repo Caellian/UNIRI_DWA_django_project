@@ -1,0 +1,25 @@
+.search > label{
+  background-color: #fff;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #000;
+}
+
+.search svg {
+  fill: #000;
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-left: 0.5rem;
+}
+
+.search input{
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #000;
+  font-size: 13px;
+}

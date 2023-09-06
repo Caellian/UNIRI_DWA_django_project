@@ -1,5 +1,7 @@
+django
+libsass
 django-sass-processor
-base64
 uuid
 django-htmlmin
 factory_boy
+django_components

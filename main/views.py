@@ -4,6 +4,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse, reverse_lazy
 from django.conf import settings
+from django.db.models import Q
+
 
 from datetime import datetime
 
@@ -30,13 +32,13 @@ class TeamList(generic.ListView):
         return context
 
 
-class TeamDetail(generic.DetailView):
+class TeamDetail(TeamRequiredMixin, generic.DetailView):
     model = Team
     pk_url_kwarg = "team_namespace"
     slug_url_kwarg = "team_namespace"
 
 
-class TeamDelete(generic.edit.DeleteView):
+class TeamDelete(TeamRequiredMixin, generic.edit.DeleteView):
     model = Team
     pk_url_kwarg = "team_namespace"
     slug_url_kwarg = "team_namespace"
@@ -44,7 +46,7 @@ class TeamDelete(generic.edit.DeleteView):
     success_url = reverse_lazy('main:team_list')
 
 
-class ProjectList(generic.ListView):
+class ProjectList(TeamRequiredMixin, generic.ListView):
     model = Project
     pk_url_kwarg = "project_namespace"
     slug_url_kwarg = "team_namespace"
@@ -62,7 +64,7 @@ class ProjectDetail(TeamRequiredMixin, MultiSlugMixin, generic.DetailView):
                        "namespace": "project_namespace"}
 
 
-class ProjectDelete(MultiSlugMixin, generic.edit.DeleteView):
+class ProjectDelete(TeamRequiredMixin, MultiSlugMixin, generic.edit.DeleteView):
     model = Project
     slug_url_kwargs = {"team": "team_namespace",
                        "namespace": "project_namespace"}
@@ -73,12 +75,12 @@ class ProjectDelete(MultiSlugMixin, generic.edit.DeleteView):
         return reverse('main:team_detail', args=[team_namespace])
 
 
-class ProjectEdit(MultiSlugMixin, generic.edit.UpdateView):
+class ProjectEdit(TeamRequiredMixin, MultiSlugMixin, generic.edit.UpdateView):
     model = Project
-    fields = ['namespace', 'name', 'description', 'team', 'schedule']
     template_name = 'forms/project_edit.html'
     slug_url_kwargs = {"team__namespace": "team_namespace",
                        "namespace": "project_namespace"}
+    form_class = ProjectForm
 
     def get_success_url(self):
         return reverse('main:project_detail', team_namespace=self.kwargs["team_namespace"], project_namespace=self.kwargs["project_namespace"])
@@ -107,7 +109,7 @@ class IssueDetail(TeamRequiredMixin, generic.DetailView):
         return result
 
 
-class IssueDelete(MultiSlugMixin, generic.edit.DeleteView):
+class IssueDelete(TeamRequiredMixin, MultiSlugMixin, generic.edit.DeleteView):
     model = Issue
     slug_url_kwargs = {"project__team__namespace": "team_namespace",
                        "project__namespace": "project_namespace",
@@ -120,7 +122,7 @@ class IssueDelete(MultiSlugMixin, generic.edit.DeleteView):
         return reverse('main:project_detail', args=[team_namespace, project_namespace])
 
 
-class IssueEdit(MultiSlugMixin, generic.edit.UpdateView):
+class IssueEdit(TeamRequiredMixin, MultiSlugMixin, generic.edit.UpdateView):
     model = Issue
     fields = ['title', 'description', 'status', 'priority', 'assigned']
     template_name = 'forms/issue_edit.html'
@@ -136,13 +138,13 @@ class UserList(generic.ListView):
     model = User
 
 
-class UserDetail(generic.DetailView):
+class UserDetail(TeamRequiredMixin, generic.DetailView):
     model = User
     slug_field = 'username'
     slug_url_kwarg = 'username'
 
 
-class TeamFormView(generic.edit.CreateView):
+class TeamFormView(TeamRequiredMixin, generic.edit.CreateView):
     model = Team
     fields = ['namespace', 'name']
     template_name = "forms/team_form.html"
@@ -176,7 +178,7 @@ class ProjectFormView(TeamRequiredMixin, generic.edit.CreateView):
         return context
 
 
-class IssueFormView(generic.edit.FormView):
+class IssueFormView(TeamRequiredMixin, generic.edit.FormView):
     template_name = 'forms/issue_form.html'
     form_class = IssueForm
 
@@ -265,3 +267,36 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return next_or_dashboard(request)
+
+def search(request):
+    q = request.GET.get('q') if request.GET.get('q') is not None else ''
+    users = User.objects.filter(
+        Q(username__icontains=q) |
+        Q(email__icontains=q) |
+        Q(first_name__icontains=q) |
+        Q(last_name__icontains=q)
+    ) if request.user.is_authenticated else []
+
+    teams = Team.objects.filter(
+        Q(name__icontains=q) |
+        Q(namespace__icontains=q)
+    )
+
+    projects = Project.objects.filter(
+        Q(name__icontains=q) |
+        Q(namespace__icontains=q) |
+        Q(description__icontains=q)
+    ) if request.user.is_authenticated else []
+    
+    issues = Issue.objects.filter(
+        Q(title__icontains=q) |
+        Q(description__icontains=q)
+    ) if request.user.is_authenticated else []
+
+    context = {
+        "users": users,
+        "teams": teams,
+        "projects": projects,
+        "issues": issues
+    }
+    return render(request, 'main/search.html', context)
